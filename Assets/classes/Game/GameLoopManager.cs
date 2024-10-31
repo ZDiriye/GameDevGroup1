@@ -9,7 +9,7 @@ using Unity.Collections;
 public class GameLoopManager : MonoBehaviour
 {
     private float timer; // Timer variable
-    private const float gameDuration = 15f; // Duration for the game timer
+    private const float gameDuration = 30f; // Duration for the game timer
 
     public static Vector3[] NodePositions;
     private static Queue<Enemy> EnemiesToRemove;
@@ -48,7 +48,7 @@ public class GameLoopManager : MonoBehaviour
 
     IEnumerator GameLoop () 
     {   
-        timer = gameDuration; // Initialize the timer
+        timer = gameDuration; // Initialise the timer
 
         while (LoopShouldEnd == false) 
         {   
@@ -207,7 +207,3 @@ public struct MoveEnemiesJob : IJobParallelForTransform
         }
     }
 }
-
-
-
-

@@ -72,10 +72,19 @@ public class EntitySummoner : MonoBehaviour
 
     public static void RemoveEnemy(Enemy EnemyToRemove)
     {
+        // Reset the health of the enemy before pooling it
+        EnemyToRemove.Health = 100f;
+        EnemyToRemove.NodeIndex = 0;
+        // Enqueue the enemy back to the object pool
         EnemyObjectPools[EnemyToRemove.ID].Enqueue(EnemyToRemove);
+
+        // Deactivate the enemy so it won't be seen until reused
         EnemyToRemove.gameObject.SetActive(false);
+
+        // Remove the enemy from the active enemies list
         EnemiesInGameTransform.Remove(EnemyToRemove.transform);
         EnemiesInGame.Remove(EnemyToRemove);
     }
+
 
 }

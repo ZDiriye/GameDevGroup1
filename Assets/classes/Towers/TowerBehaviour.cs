@@ -1,48 +1,39 @@
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-
-// public class TowerBehaviour : MonoBehaviour
-// {
-//     // Start is called before the first frame update
-//     void Start()
-//     {
-        
-//     }
-
-//     // Update is called once per frame
-//     void Update()
-//     {
-        
-//     }
-// }
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerBehaviour : MonoBehaviour
 {
-    public GameObject ProjectilePrefab;  // Prefab of the projectile the tower shoots
-    public float FireRate = 1f;          // How often the tower fires
-    public float FireRange = 10f;        // The range within which the tower can shoot
-    private float fireCountdown = 0f;    // Countdown for the next shot
+    public GameObject ProjectilePrefab; // Projectile prefab
+    private float FireRate = 1f; // Firing rate
+    private float FireRange = 10f; // Shooting range
+    private float fireCountdown = 0f; // Countdown for next shot
+    private float TowerDamage = 100f; // Projectile damage
+    private float TowerSpeed = 10f; // Projectile speed
+
+    // Flag to check if tower is placed
+    private bool isPlaced = false;
 
     void Update()
     {
-        // Reduce the fire countdown timer
+        // Only shoot if the tower is placed
+        if (!isPlaced)
+        {
+            return;
+        }
+
+        // Countdown to next shot
         fireCountdown -= Time.deltaTime;
 
-        // If the countdown reaches zero, check for enemies to fire at
+        // Shoot if countdown reaches zero
         if (fireCountdown <= 0f)
         {
             Enemy target = GetNearestEnemy();
             if (target != null)
             {
-                Shoot(target);  // Shoot at the nearest enemy
+                Shoot(target);
             }
-            fireCountdown = 1f / FireRate;  // Reset the fire countdown
+            fireCountdown = 1f / FireRate;  // Reset countdown
         }
     }
 
@@ -66,20 +57,28 @@ public class TowerBehaviour : MonoBehaviour
 
     void Shoot(Enemy target)
     {
-        // Instantiate the projectile and set its target
+        // Create and set up projectile
         GameObject projectileGO = Instantiate(ProjectilePrefab, transform.position, Quaternion.identity);
         Projectile projectile = projectileGO.GetComponent<Projectile>();
 
         if (projectile != null)
         {
             projectile.SetTarget(target);
+            projectile.SetDamage(TowerDamage);
+            projectile.SetSpeed(TowerSpeed);
         }
     }
 
-    // Optional: draw the range of the tower in the scene view
+    // Draw tower range in scene view
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, FireRange);
+    }
+
+    // Mark the tower as placed
+    public void SetPlaced()
+    {
+        isPlaced = true;
     }
 }
