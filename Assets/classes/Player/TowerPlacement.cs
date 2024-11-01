@@ -7,18 +7,11 @@ public class TowerPlacement : MonoBehaviour
 {
     private GameObject CurrentPlacingTower;
     private PlayerMovement playerMovementScript;
-
-    // Layer masks for the ground and path
     private int groundLayerMask;
     private int pathLayerMask;
-
-    // Buffer distance to prevent placement too close to the path
     private float bufferDistance = 0.2f;
-
-    // Reference to the UI warning text
     public Text cannotPlaceText;
 
-    // Initialise variables and set up layer masks
     void Start () 
     {
         playerMovementScript = GetComponent<PlayerMovement>();
@@ -32,7 +25,6 @@ public class TowerPlacement : MonoBehaviour
         }
     }
 
-    // Update the current tower placement position if there is one
     void Update ()
     {
         if (CurrentPlacingTower != null)

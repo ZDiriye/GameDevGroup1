@@ -40,10 +40,10 @@ public class Projectile : MonoBehaviour
         float distanceThisFrame = Speed * Time.deltaTime;
 
         // Check if the projectile is close enough to hit the target
-        float hitThreshold = 0.2f;
-        if (Vector3.Distance(transform.position, target.transform.position) <= distanceThisFrame+hitThreshold)
+        float hitThreshold = 0.5f;
+        if (Vector3.Distance(transform.position, target.transform.position) <= distanceThisFrame + hitThreshold)
         {
-            HitTarget();  // Call the method to handle hitting the enemy
+            HitTarget();  
             return;
         }
 
@@ -51,9 +51,9 @@ public class Projectile : MonoBehaviour
         transform.Translate(direction * distanceThisFrame, Space.World);
     }
 
+    // Remove the enemy when the projectile hits it
     void HitTarget()
     {
-        // Remove the enemy when the projectile hits it
         if (target != null)
         {
             Debug.Log("Projectile hit target: " + target.ID);

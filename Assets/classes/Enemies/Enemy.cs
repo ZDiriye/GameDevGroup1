@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public float Speed;
     public int ID;
     public float Health;
+    public bool IsTargeted; //used to prevent towers shooting at the same enemy
 
     public void Init() 
     {
@@ -15,6 +16,7 @@ public class Enemy : MonoBehaviour
         transform.position = GameLoopManager.NodePositions[0];
         NodeIndex = 0;
         Health = 100f;
+        IsTargeted = false; // set to not targeted first
     }
 
     // For Enemy to take damage
@@ -22,17 +24,22 @@ public class Enemy : MonoBehaviour
     {
         Health -= damageAmount;
         Debug.Log($"Enemy ID: {ID} took damage: {damageAmount}, Health remaining: {Health}");
-        // Check if health is less than or equal to 0, if so, enemy dies
+        
         if (Health <= 0)
         {
             Die();
         }
+        else
+        {
+            // enemy can be targeted since its still alive
+            IsTargeted = false;
+        }
     }
 
-    // To remove the enemy once it's damage reaches 0
     private void Die()
     {
+        // enemy can be targeted since its still alive
+        IsTargeted = false;
         EntitySummoner.RemoveEnemy(this);
     }
-
 }

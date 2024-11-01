@@ -37,8 +37,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        MovePlayer();
-        MovePlayerCamera();
+        if (GameLoopManager.GameIsActive)
+        {
+            MovePlayer();
+            MovePlayerCamera();
+        }
     }
 
     private void MovePlayer()

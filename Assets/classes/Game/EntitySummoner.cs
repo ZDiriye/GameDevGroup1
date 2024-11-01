@@ -32,7 +32,7 @@ public class EntitySummoner : MonoBehaviour
         }
         else 
         {
-            Debug.Log("ENTITYSUMMONER: THIS CLASS IS ALREADY INITIALIZED");
+            Debug.Log("Already intialised enitiy summoner");
         }
     }
 
@@ -60,7 +60,7 @@ public class EntitySummoner : MonoBehaviour
         }
         else 
         {
-            Debug.Log($"ENTITYSUMMONER: ENEMY WITH ID OF {EnemyID} DOES NOT EXIST!");
+            Debug.Log("Enemy ID does not exist");
             return null;
         }
 
@@ -75,6 +75,7 @@ public class EntitySummoner : MonoBehaviour
         // Reset the health of the enemy before pooling it
         EnemyToRemove.Health = 100f;
         EnemyToRemove.NodeIndex = 0;
+
         // Enqueue the enemy back to the object pool
         EnemyObjectPools[EnemyToRemove.ID].Enqueue(EnemyToRemove);
 
@@ -85,6 +86,21 @@ public class EntitySummoner : MonoBehaviour
         EnemiesInGameTransform.Remove(EnemyToRemove.transform);
         EnemiesInGame.Remove(EnemyToRemove);
     }
+
+    public static void Reset()
+    {
+        // Clear all enemy data and object pools
+        EnemiesInGame.Clear();
+        EnemiesInGameTransform.Clear();
+
+        foreach (var queue in EnemyObjectPools.Values)
+        {
+            queue.Clear();
+        }
+
+        isInitialised = false;
+    }
+
 
 
 }

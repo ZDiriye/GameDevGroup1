@@ -4,25 +4,22 @@ using UnityEngine;
 
 public class TowerBehaviour : MonoBehaviour
 {
-    public GameObject ProjectilePrefab; // Projectile prefab
-    private float FireRate = 1f; // Firing rate
-    private float FireRange = 10f; // Shooting range
-    private float fireCountdown = 0f; // Countdown for next shot
-    private float TowerDamage = 100f; // Projectile damage
-    private float TowerSpeed = 10f; // Projectile speed
-
-    // Flag to check if tower is placed
-    private bool isPlaced = false;
+    public GameObject ProjectilePrefab; 
+    private float FireRate = 0.5f; 
+    private float FireRange = 10f; 
+    private float fireCountdown = 0f; 
+    private float TowerDamage = 50f; 
+    private float TowerSpeed = 10f; 
+    private bool isPlaced = false; 
 
     void Update()
     {
-        // Only shoot if the tower is placed
-        if (!isPlaced)
+        // Only shoot if the tower is placed and the game has not stopped
+        if (!isPlaced || !GameLoopManager.GameIsActive)
         {
             return;
         }
 
-        // Countdown to next shot
         fireCountdown -= Time.deltaTime;
 
         // Shoot if countdown reaches zero
@@ -44,12 +41,24 @@ public class TowerBehaviour : MonoBehaviour
 
         foreach (Enemy enemy in EntitySummoner.EnemiesInGame)
         {
+            // Skip enemies that are already being targeted
+            if (enemy.IsTargeted)
+            {
+                continue;
+            }
+
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
             if (distanceToEnemy < shortestDistance && distanceToEnemy <= FireRange)
             {
                 shortestDistance = distanceToEnemy;
                 nearestEnemy = enemy;
             }
+        }
+
+        // Mark the enemy as targeted if found
+        if (nearestEnemy != null)
+        {
+            nearestEnemy.IsTargeted = true;
         }
 
         return nearestEnemy;
@@ -67,13 +76,6 @@ public class TowerBehaviour : MonoBehaviour
             projectile.SetDamage(TowerDamage);
             projectile.SetSpeed(TowerSpeed);
         }
-    }
-
-    // Draw tower range in scene view
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, FireRange);
     }
 
     // Mark the tower as placed

@@ -17,8 +17,13 @@ public class GameLoopManager : MonoBehaviour
 
     public Transform NodeParent;
     public bool LoopShouldEnd;
+    public static bool GameIsActive = true;
+    public GameObject placeTowerButton;
 
-    public GameObject gameOverUI;  // Declare the Game Over UI field
+    public GameObject gameOverText;  
+    public GameObject PlayAgainButton;  
+    public GameObject BackToMainMenuButton; 
+
     private int enemiesRemovedCount = 0; // Counter for removed enemies
     private const int maxEnemiesAllowed = 5; // Max number of enemies before game over
 
@@ -37,7 +42,11 @@ public class GameLoopManager : MonoBehaviour
 
         StartCoroutine(GameLoop());
         InvokeRepeating("SummonTest", 0f, 1f);
-        gameOverUI.SetActive(false);
+        gameOverText.SetActive(false);
+        PlayAgainButton.SetActive(false);
+        BackToMainMenuButton.SetActive(false);
+        GameIsActive = true;
+        placeTowerButton.SetActive(true);
     }
 
     void SummonTest ()
@@ -116,15 +125,6 @@ public class GameLoopManager : MonoBehaviour
                 NodesToUse.Dispose();
             }
 
-            // Remove Enemies
-            // if (EnemiesToRemove.Count > 0)
-            // {
-            //     for(int i = 0; i < EnemiesToRemove.Count; i++) 
-            //     {
-            //         EntitySummoner.RemoveEnemy(EnemiesToRemove.Dequeue());
-            //     }
-            // }
-
             if (EnemiesToRemove.Count > 0)
             {
                 for (int i = 0; i < EnemiesToRemove.Count; i++)
@@ -151,22 +151,34 @@ public class GameLoopManager : MonoBehaviour
     void TriggerGameOver()
     {
         Debug.Log("Game Over! " + maxEnemiesAllowed + " enemies have been removed.");
-        gameOverUI.SetActive(true);
+        gameOverText.SetActive(true);
+        PlayAgainButton.SetActive(true);
+        BackToMainMenuButton.SetActive(true);
+        placeTowerButton.SetActive(false);
+
+
         LoopShouldEnd = true; // Stop the game loop
+        GameIsActive = false;
+        
     }
 
     void TriggerGameWon()
     {
         Debug.Log("Game Won! Time has run out without reaching " + maxEnemiesAllowed + " enemies removed.");
-        gameOverUI.SetActive(true);  // Show the same UI
+        gameOverText.SetActive(true); 
+        PlayAgainButton.SetActive(true);
+        BackToMainMenuButton.SetActive(true);
+        placeTowerButton.SetActive(false);
+
         // Change the text to "Game Won"
-        Text uiText = gameOverUI.GetComponentInChildren<Text>(); // Assuming you are using UnityEngine.UI
+        Text uiText = gameOverText.GetComponentInChildren<Text>(); // Assuming you are using UnityEngine.UI
         if (uiText != null)
         {
-            uiText.text = "GAME WON";
+            uiText.text = "GAME WON!";
             uiText.color = Color.green;
         }
         LoopShouldEnd = true; // Stop the game loop
+        GameIsActive = false;
     }
 
     public static void EnqueueEnemyIDToSummon(int ID)
