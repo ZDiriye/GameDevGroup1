@@ -1,52 +1,100 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TowerPlacement : MonoBehaviour
 {
     private GameObject CurrentPlacingTower;
-    private PlayerMovement playerMovementScript;  // Reference to the PlayerMovement script
+    private PlayerMovement playerMovementScript;
+    private int groundLayerMask;
+    private int pathLayerMask;
+    private float bufferDistance = 0.2f;
+    public Text cannotPlaceText;
 
     void Start () 
     {
-        // Get the PlayerMovement script from the player GameObject
         playerMovementScript = GetComponent<PlayerMovement>();
+
+        groundLayerMask = LayerMask.GetMask("Ground");
+        pathLayerMask = LayerMask.GetMask("Path");
+
+        if (cannotPlaceText != null)
+        {
+            cannotPlaceText.gameObject.SetActive(false); // Hide warning text initially
+        }
     }
 
     void Update ()
     {
         if (CurrentPlacingTower != null)
         {
-            // Use the camera from the PlayerMovement script
             Camera playerCamera = playerMovementScript.PlayerCamera.GetComponent<Camera>();
-
             Ray camray = playerCamera.ScreenPointToRay(Input.mousePosition);
 
-            // Raycast to determine the placement position
-            if (Physics.Raycast(camray, out RaycastHit hitInfo, 100f))
+            // Raycast to determine placement position, only on the "Ground" layer
+            if (Physics.Raycast(camray, out RaycastHit hitInfo, 100f, groundLayerMask))
             {
-                // Calculate the bounds of the tower
                 Bounds towerBounds = CurrentPlacingTower.GetComponent<Renderer>().bounds;
 
-                // Adjust the Y position to ensure the tower is placed on the ground
+                // Adjust the Y position to place the tower on the ground
                 Vector3 newPosition = hitInfo.point;
-                newPosition.y += towerBounds.extents.y; // Move it upwards by half the tower's height
+                newPosition.y += towerBounds.extents.y;
 
-                // Place the tower at the adjusted position
                 CurrentPlacingTower.transform.position = newPosition;
             }
 
             // Place the tower if left mouse button is clicked
             if (Input.GetMouseButtonDown(0))
             {
-                CurrentPlacingTower = null;
+                Bounds towerBounds = CurrentPlacingTower.GetComponent<Renderer>().bounds;
+                Vector3 center = towerBounds.center;
+                Vector3 expandedExtents = towerBounds.extents + new Vector3(bufferDistance, 0, bufferDistance);
+
+                // Check for overlap with path before placing the tower
+                Collider[] colliders = Physics.OverlapBox(center, expandedExtents, Quaternion.identity, pathLayerMask);
+
+                if (colliders.Length > 0)
+                {
+                    ShowCannotPlaceWarning();
+                }
+                else
+                {
+                    // Finalise placement if it is a valid position
+                    TowerBehaviour towerBehaviour = CurrentPlacingTower.GetComponent<TowerBehaviour>();
+                    if (towerBehaviour != null)
+                    {
+                        towerBehaviour.SetPlaced(); 
+                    }
+                    CurrentPlacingTower = null;
+                }
             }
         }
     }
 
+    // Set a new tower to be placed by the player
     public void SetTowerToPlace(GameObject tower)
     {
-        // Instantiate a new tower at the initial position
         CurrentPlacingTower = Instantiate(tower, Vector3.zero, Quaternion.identity);
+    }
+
+    // Show the "Cannot Place Here" warning text on screen
+    void ShowCannotPlaceWarning()
+    {
+        if (cannotPlaceText != null)
+        {
+            cannotPlaceText.gameObject.SetActive(true);
+            StartCoroutine(HideCannotPlaceWarning()); // Hide warning after delay
+        }
+    }
+
+    // Hide the "Cannot Place Here" warning text after a short delay
+    IEnumerator HideCannotPlaceWarning()
+    {
+        yield return new WaitForSeconds(1f);
+        if (cannotPlaceText != null)
+        {
+            cannotPlaceText.gameObject.SetActive(false);
+        }
     }
 }

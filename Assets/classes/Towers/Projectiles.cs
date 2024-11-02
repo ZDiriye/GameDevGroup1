@@ -4,13 +4,26 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float Speed = 10f; // How fast the projectile moves
-    private Enemy target;      // The enemy the projectile is targeting
+    private float Speed; 
+    private Enemy target;
+    private float Damage;
 
-    // Method to set the target for the projectile
+    // Target for the projectile
     public void SetTarget(Enemy enemy)
     {
         target = enemy;
+    }
+
+    // Damage for the projectile
+    public void SetDamage(float Damage)
+    {
+        this.Damage = Damage;
+    }
+
+    // Speed for the projectile
+    public void SetSpeed(float Speed)
+    {
+        this.Speed = Speed;
     }
 
     void Update()
@@ -27,9 +40,10 @@ public class Projectile : MonoBehaviour
         float distanceThisFrame = Speed * Time.deltaTime;
 
         // Check if the projectile is close enough to hit the target
-        if (Vector3.Distance(transform.position, target.transform.position) <= distanceThisFrame)
+        float hitThreshold = 0.5f;
+        if (Vector3.Distance(transform.position, target.transform.position) <= distanceThisFrame + hitThreshold)
         {
-            HitTarget();  // Call the method to handle hitting the enemy
+            HitTarget();  
             return;
         }
 
@@ -37,15 +51,15 @@ public class Projectile : MonoBehaviour
         transform.Translate(direction * distanceThisFrame, Space.World);
     }
 
+    // Remove the enemy when the projectile hits it
     void HitTarget()
     {
-        // Remove the enemy when the projectile hits it
         if (target != null)
         {
-            EntitySummoner.RemoveEnemy(target);
+            Debug.Log("Projectile hit target: " + target.ID);
+            target.TakeDamage(Damage);
         }
 
-        // Destroy the projectile after it hits the enemy
         Destroy(gameObject);
     }
 }

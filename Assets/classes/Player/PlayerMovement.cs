@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CharacterController Controller; // Reference to the character controller
     [Space]
     [SerializeField] private float Speed = 5f; // Movement speed
-    [SerializeField] private float Sensitivity = 5000f; // Extremely high mouse sensitivity
+    [SerializeField] private float Sensitivity = 2500f; 
 
     // Reference to the Input Action Asset
     private PlayerInputActions inputActions;
@@ -37,8 +37,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        MovePlayer();
-        MovePlayerCamera();
+        if (GameLoopManager.GameIsActive)
+        {
+            MovePlayer();
+            MovePlayerCamera();
+        }
     }
 
     private void MovePlayer()
