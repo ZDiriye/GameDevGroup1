@@ -1,15 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Jobs;
-using Unity.Jobs;
-using Unity.Collections;
 
 public class GameLoopManager : MonoBehaviour
 {
-    private float timer; // Timer variable
-    private const float gameDuration = 30f; // Duration for the game timer
+    private float timer; 
+    private const float gameDuration = 30f;
 
     public static Vector3[] NodePositions;
     private static Queue<Enemy> EnemiesToRemove;
@@ -24,8 +20,13 @@ public class GameLoopManager : MonoBehaviour
     public GameObject PlayAgainButton;  
     public GameObject BackToMainMenuButton; 
 
-    private int enemiesRemovedCount = 0; // Counter for removed enemies
-    private const int maxEnemiesAllowed = 5; // Max number of enemies before game over
+    private int enemiesRemovedCount = 0;
+    private const int maxEnemiesAllowed = 5;
+
+    // Timer to control enemy spawns
+    public float spawnInterval = 20f; // Adjust this value to increase or decrease the spawn delay
+    private float spawnTimer = 0f; 
+    
 
     void Start()
     {
@@ -57,127 +58,127 @@ public class GameLoopManager : MonoBehaviour
 
     IEnumerator GameLoop () 
     {   
-        timer = gameDuration; // Initialise the timer
+        timer = gameDuration;
 
-        while (LoopShouldEnd == false) 
+        while (!LoopShouldEnd) 
         {   
             // Countdown timer
             timer -= Time.deltaTime;
-        
-            // Check if the timer has run out
+
+            // Check if time is up => Game Won
             if (timer <= 0)
             {
-                TriggerGameWon(); // Call Game Won method
-                yield break; // Exit the game loop
+                TriggerGameWon();
+                yield break;
             }
 
-            // Spawn Enemies
-            if (EnemyIDsToSummon.Count > 0)
+            // Handle enemy spawning based on spawnInterval
+            spawnTimer += Time.deltaTime;
+            if (spawnTimer >= spawnInterval)
             {
-                for(int i = 0; i < EnemyIDsToSummon.Count; i++) 
-                {
+                // Time to spawn a new enemy
+                spawnTimer = 0f;
+                if (EnemyIDsToSummon.Count > 0) {
                     EntitySummoner.SummonEnemy(EnemyIDsToSummon.Dequeue());
                 }
             }
 
-            // Move Enemies
-            if (EntitySummoner.EnemiesInGame.Count > 0)
-            {
-                // Allocate NativeArrays
-                NativeArray<Vector3> NodesToUse = new NativeArray<Vector3>(NodePositions, Allocator.TempJob);
-                NativeArray<float> EnemySpeeds = new NativeArray<float>(EntitySummoner.EnemiesInGame.Count, Allocator.TempJob);
-                NativeArray<int> NodeIndices = new NativeArray<int>(EntitySummoner.EnemiesInGame.Count, Allocator.TempJob);
-                TransformAccessArray EnemyAccess = new TransformAccessArray(EntitySummoner.EnemiesInGameTransform.ToArray(), 2);
+            // Move Enemies (simple loop, no jobs)
+            MoveEnemies();
 
-                for (int i = 0; i < EntitySummoner.EnemiesInGame.Count; i++)
-                {
-                    EnemySpeeds[i] = EntitySummoner.EnemiesInGame[i].Speed;
-                    NodeIndices[i] = EntitySummoner.EnemiesInGame[i].NodeIndex;
-                }
-
-                // Schedule the job
-                MoveEnemiesJob MoveJob = new MoveEnemiesJob 
-                {
-                    NodePositions = NodesToUse,
-                    EnemySpeed = EnemySpeeds,
-                    NodeIndex = NodeIndices,
-                    deltaTime = Time.deltaTime
-                };
-
-                JobHandle MoveJobHandle = MoveJob.Schedule(EnemyAccess);
-                MoveJobHandle.Complete();
-
-                // Update enemies' NodeIndex based on the job's results
-                for (int i = 0; i < EntitySummoner.EnemiesInGame.Count; i++)
-                {
-                    EntitySummoner.EnemiesInGame[i].NodeIndex = NodeIndices[i];
-
-                    if (EntitySummoner.EnemiesInGame[i].NodeIndex == NodePositions.Length)
-                    {
-                        EnqueueEnemyToRemove(EntitySummoner.EnemiesInGame[i]);
-                    }
-                }
-
-                // Clean up NativeArrays after the job is complete
-                EnemySpeeds.Dispose();
-                NodeIndices.Dispose();
-                EnemyAccess.Dispose();
-                NodesToUse.Dispose();
-            }
-
+            // Remove enemies if any are queued for removal
             if (EnemiesToRemove.Count > 0)
             {
                 for (int i = 0; i < EnemiesToRemove.Count; i++)
                 {
                     EntitySummoner.RemoveEnemy(EnemiesToRemove.Dequeue());
 
-                    // Increment the counter for removed enemies
                     enemiesRemovedCount++;
                     Debug.Log("Enemy Removed! Count: " + enemiesRemovedCount);
 
-                    // Check if we've reached the limit of allowed enemies removed
                     if (enemiesRemovedCount >= maxEnemiesAllowed)
                     {
                         TriggerGameOver();
-                        yield break; // Exit the game loop once Game Over is triggered
+                        yield break;
                     }
                 }
             }
 
-            yield return null; // Wait for the next frame before repeating
+            yield return null;
+        }
+    }
+
+    void MoveEnemies()
+    {
+        if (EntitySummoner.EnemiesInGame.Count > 0)
+        {
+            foreach (Enemy enemy in EntitySummoner.EnemiesInGame)
+            {
+                if (enemy.NodeIndex < NodePositions.Length)
+                {
+                    Vector3 targetPos = NodePositions[enemy.NodeIndex];
+                    Vector3 direction = targetPos - enemy.transform.position;
+                    float distanceThisFrame = enemy.Speed * Time.deltaTime;
+
+                    // If close enough to the target node
+                    if (direction.magnitude <= distanceThisFrame)
+                    {
+                        // Snap to the target position
+                        enemy.transform.position = targetPos;
+                        enemy.NodeIndex++;
+
+                        // Check if the enemy has reached the end
+                        if (enemy.NodeIndex >= NodePositions.Length)
+                        {
+                            // Enemy reached the end, remove it
+                            EnqueueEnemyToRemove(enemy);
+                        }
+                        else
+                        {
+                            // Face the next node
+                            enemy.transform.LookAt(NodePositions[enemy.NodeIndex]);
+                        }
+                    }
+                    else
+                    {
+                        // Move towards the target
+                        enemy.transform.LookAt(targetPos);
+                        enemy.transform.Translate(direction.normalized * distanceThisFrame, Space.World);
+                    }
+                }
+            }
         }
     }
 
     void TriggerGameOver()
     {
-        Debug.Log("Game Over! " + maxEnemiesAllowed + " enemies have been removed.");
+        Debug.Log("Game Over!");
         gameOverText.SetActive(true);
         PlayAgainButton.SetActive(true);
         BackToMainMenuButton.SetActive(true);
         placeTowerButton.SetActive(false);
 
-
-        LoopShouldEnd = true; // Stop the game loop
+        LoopShouldEnd = true;
         GameIsActive = false;
-        
     }
 
     void TriggerGameWon()
     {
-        Debug.Log("Game Won! Time has run out without reaching " + maxEnemiesAllowed + " enemies removed.");
+        Debug.Log("Game Won!");
         gameOverText.SetActive(true); 
         PlayAgainButton.SetActive(true);
         BackToMainMenuButton.SetActive(true);
         placeTowerButton.SetActive(false);
 
-        // Change the text to "Game Won"
-        Text uiText = gameOverText.GetComponentInChildren<Text>(); // Assuming you are using UnityEngine.UI
+        // Change the text to "GAME WON!"
+        UnityEngine.UI.Text uiText = gameOverText.GetComponentInChildren<UnityEngine.UI.Text>();
         if (uiText != null)
         {
             uiText.text = "GAME WON!";
             uiText.color = Color.green;
         }
-        LoopShouldEnd = true; // Stop the game loop
+
+        LoopShouldEnd = true;
         GameIsActive = false;
     }
 
@@ -189,33 +190,5 @@ public class GameLoopManager : MonoBehaviour
     public static void EnqueueEnemyToRemove (Enemy EnemyToRemove)
     {
         EnemiesToRemove.Enqueue(EnemyToRemove);
-    }
-}
-
-public struct MoveEnemiesJob : IJobParallelForTransform
-{
-    [NativeDisableParallelForRestriction]
-    public NativeArray<Vector3> NodePositions;
-
-    [NativeDisableParallelForRestriction]
-    public NativeArray<float> EnemySpeed;
-
-    [NativeDisableParallelForRestriction]
-    public NativeArray<int> NodeIndex;
-
-    public float deltaTime;
-
-    public void Execute(int index, TransformAccess transform)
-    {
-        if (NodeIndex[index] < NodePositions.Length)
-        {
-            Vector3 PositionToMoveTo = NodePositions[NodeIndex[index]];
-            transform.position = Vector3.MoveTowards(transform.position, PositionToMoveTo, EnemySpeed[index] * deltaTime);
-
-            if (transform.position == PositionToMoveTo)
-            {
-                NodeIndex[index]++;
-            }
-        }
     }
 }
