@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeIndex: 0
-  Speed: 5
+  Speed: 3
   ID: 1
   Health: 100
   IsTargeted: 0
