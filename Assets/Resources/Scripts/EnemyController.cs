@@ -13,14 +13,14 @@ public class EnemyController : MonoBehaviour
 
     public void Start() 
     {
-        Initialise(EnemyManager.instance.navigationPath1);
+        Initialise(EnemyManager.instance.navigationPath0);
     }
 
     // sets up enemy's navigation agent and starts the movement through waypoints.
     public void Initialise(Transform[] waypoints)
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        if (navMeshAgent == null) // Check if the component is missing
+        if (navMeshAgent == null) 
         {
             Debug.LogError("NavMeshAgent component not found on the GameObject.");
             return;
@@ -61,7 +61,9 @@ public class EnemyController : MonoBehaviour
     {
         if (attack)
         {
+            transform.LookAt(EnemyManager.instance.level.headquaters.transform.position);
             animator.SetTrigger("Attack");
         }
+
     }
 }

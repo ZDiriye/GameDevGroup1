@@ -7,6 +7,7 @@ public class EnemyManager : MonoBehaviour
     public LevelController level;
     public Transform[] navigationPath0, navigationPath1;
     public static EnemyManager instance;
+    public GameObject[] enemyPrefabs;
 
     public void Awake()
     {

@@ -3696,6 +3696,7 @@ GameObject:
   - component: {fileID: 6340696256404107989}
   - component: {fileID: 1129987343892459551}
   - component: {fileID: 5967402667516520367}
+  - component: {fileID: 5914643293481885126}
   m_Layer: 0
   m_Name: C02
   m_TagString: Untagged
@@ -3712,7 +3713,7 @@ Transform:
   m_GameObject: {fileID: 6340696256394609011}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 66.52391, y: 0.000015258789, z: -113.0772}
+  m_LocalPosition: {x: -63.24684, y: 0.019996643, z: -114.38345}
   m_LocalScale: {x: 7, y: 7, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3773,7 +3774,7 @@ NavMeshAgent:
   m_Radius: 0.5
   m_Speed: 50
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 0
   m_AngularSpeed: 170
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
@@ -3782,7 +3783,20 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
+--- !u!114 &5914643293481885126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6340696256394609011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28776a61c02954db1ace915b5fbd1f12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.5
 --- !u!1 &6340696256394609013
 GameObject:
   m_ObjectHideFlags: 0

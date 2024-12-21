@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 192099134557950850}
   - component: {fileID: 2198059034759978195}
   - component: {fileID: 4090894685475318917}
+  - component: {fileID: 3827438929971135753}
   m_Layer: 0
   m_Name: GruntPolyart
   m_TagString: Untagged
@@ -216,8 +217,8 @@ Transform:
   m_GameObject: {fileID: 192099134557950851}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -45, y: -0, z: -65}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalPosition: {x: -53, y: 0.020019531, z: -116.3652}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 192099135458760711}
@@ -258,6 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad56239db6604a138d25e1d6dcd8d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 192099134557950850}
 --- !u!195 &4090894685475318917
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -268,10 +270,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 50
   m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
+  avoidancePriority: 0
+  m_AngularSpeed: 170
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -279,7 +281,20 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
+--- !u!114 &3827438929971135753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192099134557950851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28776a61c02954db1ace915b5fbd1f12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.5
 --- !u!1 &192099134668074428
 GameObject:
   m_ObjectHideFlags: 0

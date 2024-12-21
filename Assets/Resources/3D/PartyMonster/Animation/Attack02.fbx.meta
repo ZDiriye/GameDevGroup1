@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ee4dcd4aac28c304c9bd9485e85e6e3b
+guid: e61105f90c0fb46eda7b881b7833de97
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -1263,10 +1263,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 195698
-  packageName: Party Monster Duo Polyart PBR
-  packageVersion: 1.2
-  assetPath: Assets/PartyMonsterDuo/Animation/Attack02.fbx
-  uploadId: 441838
