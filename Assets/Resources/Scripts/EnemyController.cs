@@ -10,14 +10,18 @@ public class EnemyController : MonoBehaviour
     private Transform[] waypoints;
     private NavMeshAgent navMeshAgent;
     private bool attack = false;
+    public int maxHealth;
+    public int health;
+    public Healthbar healthbar;
 
-    public void Start() 
+
+    public void Start ()
     {
-        Initialise(EnemyManager.instance.navigationPath0);
+        health = maxHealth; 
+        healthbar.UpdateHealthbar(maxHealth, health);
     }
-
-    // sets up enemy's navigation agent and starts the movement through waypoints.
-    public void Initialise(Transform[] waypoints)
+    // sets up enemy's navigation agent and starts the movement through waypoints
+    public void Initialise(Transform[] waypoints, bool strong, bool fast)
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         if (navMeshAgent == null) 
@@ -26,6 +30,16 @@ public class EnemyController : MonoBehaviour
             return;
         }
         Debug.Log(navMeshAgent.isOnNavMesh);
+        if (fast)
+        {
+            navMeshAgent.speed *= 2;
+        }
+
+        if (strong)
+        {
+            health *= 2;
+        }
+
         this.waypoints = waypoints;
         StartCoroutine(MoveThroughWaypoints(waypoints));
     }
@@ -39,6 +53,7 @@ public class EnemyController : MonoBehaviour
         {
             navMeshAgent.SetDestination(waypoints[currentWaypoint].position); 
             Debug.Log($"Moving to waypoint {currentWaypoint}: {navMeshAgent.SetDestination(waypoints[currentWaypoint].position)}");
+
             yield return new WaitUntil(() => navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending);
             Debug.Log($"Reached waypoint {currentWaypoint}");
             currentWaypoint++;
@@ -54,6 +69,21 @@ public class EnemyController : MonoBehaviour
         Debug.Log($"Attack");
         attack = true;
 
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        healthbar.UpdateHealthbar(maxHealth, health);
+        if (health <= 0)
+        {
+            Die();
+        }
+    }   
+
+    private void Die()
+    {
+        Destroy(this.gameObject);
     }
 
     // updates each frame to handle attack animation triggering.

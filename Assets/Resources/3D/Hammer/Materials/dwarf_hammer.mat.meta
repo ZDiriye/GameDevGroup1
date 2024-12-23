@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3400d36b05812a945a1d6025e222d5ac
+timeCreated: 1444254819
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 47421
+  packageName: Dwarf Melee Weapons
+  packageVersion: 3.0
+  assetPath: Assets/dwarf_weapons/Materials/dwarf_hammer.mat
+  uploadId: 136901

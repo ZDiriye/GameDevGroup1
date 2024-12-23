@@ -5,5 +5,4 @@ using UnityEngine;
 public class LevelController : MonoBehaviour
 {
     public HeadquarterController headquaters;
-    
 }
