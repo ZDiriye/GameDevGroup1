@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FreezeTowerController : BaseTowerController
+public class FireTowerController : BaseTowerController
 {
-    // Start is called before the first frame update
-    void Start()
+    public override IEnumerator ShootTarget(Transform target)
     {
-        
-    }
+        shooting = true;
+        while (shooting)
+        {
+            GameObject projectile = Instantiate(projectilePrefab);
+            projectile.GetComponent<Projectiles>().Initialise(target, 1.5f);
+            yield return new WaitForSeconds(shootingCoolDown);
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        StopShooting();
+        yield return null;
     }
 }

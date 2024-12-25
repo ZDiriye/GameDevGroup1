@@ -1,18 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ArrowTowerController : BaseTowerController
 {
-    // Start is called before the first frame update
-    void Start()
+    // Shoots projectiles at the closest enemy with a cooldown.
+    public override IEnumerator ShootTarget(Transform target)
     {
-        
-    }
+        shooting = true;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        while (shooting)
+        {
+            if (targetEnemy == null)
+            {
+                yield return null;
+                continue;
+            }
+
+            // Instantiate and initialize the projectile
+            GameObject projectile = Instantiate(projectilePrefab);
+            projectile.transform.position = shootingPoint.position;
+            projectile.transform.rotation = shootingPoint.rotation;
+            projectile.GetComponent<Projectiles>().Initialise(targetEnemy.transform, 1.5f);
+
+            // Wait for the cooldown duration
+            yield return new WaitForSeconds(shootingCoolDown);
+        }
     }
 }
