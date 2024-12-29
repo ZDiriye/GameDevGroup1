@@ -127,6 +127,10 @@ public class GameplayUIController : MonoBehaviour
             pointController.TowerPlaced(tower.GetComponent<BaseTowerController>());
 
             Debug.Log($"Tower placed: {tower.name}");
+
+            Debug.Log($"Tower position after placement: {tower.transform.position}");
+            Debug.Log($"Tower active state: {tower.activeInHierarchy}");
+
         }
     }
 
@@ -153,4 +157,3 @@ public class GameplayUIController : MonoBehaviour
     }
 
 }
- 

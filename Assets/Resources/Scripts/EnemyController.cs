@@ -14,12 +14,14 @@ public class EnemyController : MonoBehaviour
     public int health;
     public Healthbar healthbar;
 
-
+    private bool isDead = false;
+    
     public void Start ()
     {
         health = maxHealth; 
         healthbar.UpdateHealthbar(maxHealth, health);
     }
+
     // sets up enemy's navigation agent and starts the movement through waypoints
     public void Initialise(Transform[] waypoints, bool strong, bool fast)
     {
@@ -49,12 +51,37 @@ public class EnemyController : MonoBehaviour
     {
         int currentWaypoint = 0;
         Debug.Log($"Starting movement through waypoints. Total waypoints: {waypoints.Length}");
-        while (currentWaypoint < waypoints.Length) 
+        while (currentWaypoint < waypoints.Length)
         {
-            navMeshAgent.SetDestination(waypoints[currentWaypoint].position); 
+            // Stop if the agent is missing, disabled, no longer on a NavMesh, or if we're dead.
+            if (navMeshAgent == null 
+                || !navMeshAgent.isActiveAndEnabled 
+                || !navMeshAgent.isOnNavMesh 
+                || isDead)
+            {
+                yield break;
+            }
+
+            navMeshAgent.SetDestination(waypoints[currentWaypoint].position);
             Debug.Log($"Moving to waypoint {currentWaypoint}: {navMeshAgent.SetDestination(waypoints[currentWaypoint].position)}");
 
-            yield return new WaitUntil(() => navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending);
+            // Wait until we reach the waypoint or any condition invalidates the agent again
+            yield return new WaitUntil(() => 
+                navMeshAgent != null 
+                && navMeshAgent.isActiveAndEnabled 
+                && navMeshAgent.isOnNavMesh 
+                && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance
+                && !navMeshAgent.pathPending);
+
+            // Stop if something changed while waiting
+            if (isDead 
+                || navMeshAgent == null 
+                || !navMeshAgent.isActiveAndEnabled 
+                || !navMeshAgent.isOnNavMesh)
+            {
+                yield break;
+            }
+
             Debug.Log($"Reached waypoint {currentWaypoint}");
             currentWaypoint++;
         }
@@ -68,22 +95,57 @@ public class EnemyController : MonoBehaviour
         transform.LookAt(EnemyManager.instance.level.headquaters.transform.position);
         Debug.Log($"Attack");
         attack = true;
-
     }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
         healthbar.UpdateHealthbar(maxHealth, health);
-        if (health <= 0)
+        if (health > 0)
         {
+            animator.SetBool("IsHit", true);
+            Debug.Log("GetHit animation triggered.");
+
+            // Optionally, reset the IsHit boolean back to false after a short delay
+            StartCoroutine(ResetHitAnimation());
+        }
+        else
+        {
+            // If health is zero or less, the enemy dies
             Die();
         }
     }   
 
+    private IEnumerator ResetHitAnimation()
+    {
+        yield return new WaitForSeconds(0.2f);  // Assuming the GetHit animation is around 1 second long
+        animator.SetBool("IsHit", false);
+    }
+
     private void Die()
     {
-        Destroy(this.gameObject);
+        Debug.Log("Die Trigger Sent.");
+        isDead = true;  // Mark as dead to halt movement checks
+
+        if (navMeshAgent != null && navMeshAgent.isOnNavMesh)
+        {
+            navMeshAgent.isStopped = true;
+            navMeshAgent.enabled = false;
+        }
+
+        animator.SetTrigger("Die");
+        StartCoroutine(WaitForDeathAnimation());  // Ensure this is being called
+    }
+
+    private IEnumerator WaitForDeathAnimation()
+    {
+        Debug.Log("Waiting for death animation to complete.");
+        yield return new WaitUntil(() =>
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Die") &&
+            animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+
+        Debug.Log("Death animation complete, destroying object.");
+        Destroy(gameObject);
     }
 
     // updates each frame to handle attack animation triggering.
@@ -94,6 +156,5 @@ public class EnemyController : MonoBehaviour
             transform.LookAt(EnemyManager.instance.level.headquaters.transform.position);
             animator.SetTrigger("Attack");
         }
-
     }
 }

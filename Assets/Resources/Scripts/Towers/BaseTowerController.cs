@@ -10,7 +10,7 @@ public class BaseTowerController : MonoBehaviour
     protected Coroutine shoot;
     public Transform shootingPoint;
 
-    private List<Collider> enemiesInRange = new List<Collider>(); // List of enemies in range
+    public List<Collider> enemiesInRange = new List<Collider>(); // List of enemies in range
     protected Collider targetEnemy;
 
     // Initiates shooting at the target (to be implemented in derived classes).

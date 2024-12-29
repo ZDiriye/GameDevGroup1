@@ -118,3 +118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0031369ce763c46358d6481b21171e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Target: {fileID: 0}
+  StartMarker: {x: 0, y: 0, z: 0}
+  SpeedTravel: 0
+  initialise: 0
+  StartTime: 0
+  projectileType: 2

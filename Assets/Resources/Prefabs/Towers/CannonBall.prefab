@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7624626879214620373}
   - component: {fileID: 5235469739590068724}
   - component: {fileID: 8775874159119357779}
+  - component: {fileID: -193499669315828269}
   m_Layer: 0
   m_Name: CannonBall
   m_TagString: Untagged
@@ -118,3 +119,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0031369ce763c46358d6481b21171e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Target: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  SpeedTravel: 0
+  projectileType: 1
+  arcHeight: 25
+  distanceThreshold: 0.25
+--- !u!54 &-193499669315828269
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3338797074787679770}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

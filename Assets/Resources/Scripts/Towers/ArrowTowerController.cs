@@ -3,6 +3,17 @@ using UnityEngine;
 
 public class ArrowTowerController : BaseTowerController
 {
+
+    void OnDisable()
+    {
+        Debug.Log($"Tower {gameObject.name} was deactivated.");
+    }
+
+    void OnDestroy()
+    {
+        Debug.Log($"Tower {gameObject.name} was destroyed.");
+    }
+
     // Shoots projectiles at the closest enemy with a cooldown.
     public override IEnumerator ShootTarget(Transform target)
     {
