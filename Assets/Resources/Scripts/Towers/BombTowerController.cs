@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class BombTowerController : BaseTowerController
 {
-    // Shoots projectiles at the closest enemy with a cooldown.
+    protected virtual void Awake()
+    {
+        shootingCoolDown = 3.5f;
+        Debug.Log($"{gameObject.name}: Awake - shootingCoolDown set to {shootingCoolDown}");
+    }
+
+    // Shoots projectiles at the current target with a cooldown.
     public override IEnumerator ShootTarget(Transform target)
     {
         shooting = true;
@@ -14,8 +20,9 @@ public class BombTowerController : BaseTowerController
             projectile.transform.position = shootingPoint.position;
             projectile.transform.rotation = shootingPoint.rotation;
             projectile.GetComponent<Projectiles>().Initialise(target.position, 1.5f);
+            
+            cooldownTimer = shootingCoolDown;
             yield return new WaitForSeconds(shootingCoolDown);
         }
-        yield return null;
     }
 }

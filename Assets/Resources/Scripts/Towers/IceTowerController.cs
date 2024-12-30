@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class IceTowerController : BaseTowerController
 {
+    protected virtual void Awake()
+    {
+        shootingCoolDown = 4f;
+        Debug.Log($"{gameObject.name}: Awake - shootingCoolDown set to {shootingCoolDown}");
+    }
+
     // Shoots projectiles at the closest enemy with a cooldown.
     public override IEnumerator ShootTarget(Transform target)
     {

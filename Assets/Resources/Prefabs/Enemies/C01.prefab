@@ -962,6 +962,7 @@ MonoBehaviour:
   maxHealth: 100
   health: 100
   healthbar: {fileID: 2519327266007427475}
+  remainingSlowTime: 0
 --- !u!195 &6936693128343917046
 NavMeshAgent:
   m_ObjectHideFlags: 0

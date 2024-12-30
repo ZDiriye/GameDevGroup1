@@ -28,6 +28,13 @@ public class Projectiles : MonoBehaviour
         this.SpeedTravel = speedTravel;
         this.StartTime = Time.time;
         initialise = true;
+
+        if (Target != null)
+        {
+            Vector3 direction = (Target.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = lookRotation;
+        }
     }
 
     private void Start()
@@ -45,65 +52,68 @@ public class Projectiles : MonoBehaviour
                 return;
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, Target.position, 50 * SpeedTravel * Time.deltaTime);
-            transform.LookAt(Target);
+            Vector3 direction = (Target.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 100000);
+
+            transform.position = Vector3.MoveTowards(transform.position, Target.position, 45 * SpeedTravel * Time.deltaTime);
         }
-        // else if (projectileType == ProjectileType.CannonBall)
-        // {
-        //     if (targetPosition == null)
-        //     {
-        //         Destroy(gameObject);
-        //         return;
-        //     }
+        else if (projectileType == ProjectileType.CannonBall)
+        {
+            if (targetPosition == null)
+            {
+                Destroy(gameObject);
+                return;
+            }
 
-        //     float totalDistance = Vector3.Distance(startPos, targetPosition);
-        //     float movePerSec = 15f * SpeedTravel;
-        //     float distanceCovered = movePerSec * (Time.time - StartTime);
-        //     float t = distanceCovered / totalDistance;
+            float totalDistance = Vector3.Distance(startPos, targetPosition);
+            float movePerSec = 15f * SpeedTravel;
+            float distanceCovered = movePerSec * (Time.time - StartTime);
+            float t = distanceCovered / totalDistance;
 
-        //     // Clamp t to [0..1] so we don't overshoot
-        //     t = Mathf.Clamp01(t);
+            // Clamp t to [0..1] so we don't overshoot
+            t = Mathf.Clamp01(t);
 
-        //     // Horizontal interpolation from startPos to targetPos
-        //     Vector3 horizontalPos = Vector3.Lerp(startPos, targetPosition, t);
+            // Horizontal interpolation from startPos to targetPos
+            Vector3 horizontalPos = Vector3.Lerp(startPos, targetPosition, t);
 
-        //     // Add a vertical arc using a sine wave
-        //     float offset = Mathf.Sin(Mathf.PI * t) * arcHeight;
+            // Add a vertical arc using a sine wave
+            float offset = Mathf.Sin(Mathf.PI * t) * arcHeight;
 
-        //     // Final position
-        //     transform.position = new Vector3(
-        //         horizontalPos.x,
-        //         horizontalPos.y + offset,
-        //         horizontalPos.z
-        //     );
+            // Final position
+            transform.position = new Vector3(
+                horizontalPos.x,
+                horizontalPos.y + offset,
+                horizontalPos.z
+            );
 
-        //     float currentDistanceToTarget = Vector3.Distance(transform.position, targetPosition);
-        //     if (currentDistanceToTarget < distanceThreshold)
-        //     {
-        //         AOE(15);
-        //     }
-        // }
+            float currentDistanceToTarget = Vector3.Distance(transform.position, targetPosition);
+            if (currentDistanceToTarget < distanceThreshold)
+            {
+                AOE(20);
+            }
+        }
     }
 
     protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy") && projectileType == ProjectileType.Arrow)
         {
-            other.GetComponent<EnemyController>().TakeDamage(10);
+            other.GetComponent<EnemyController>().TakeDamage(15);
             Destroy(gameObject);
         }
     }
 
-    // private void AOE(float size)
-    // {
-    //     Collider[] hits = Physics.OverlapSphere(transform.position, size);
-    //     foreach (Collider hit in hits)
-    //     {
-    //         if (hit.CompareTag("Enemy"))
-    //         {
-    //             hit.GetComponent<EnemyController>().TakeDamage(20);
-    //         }
-    //     }
-    //     Destroy(gameObject);
-    // }
+    private void AOE(float size)
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, size);
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Enemy"))
+            {
+                hit.GetComponent<EnemyController>().TakeDamage(20);
+            }
+        }
+        Destroy(gameObject);
+    }
 }
