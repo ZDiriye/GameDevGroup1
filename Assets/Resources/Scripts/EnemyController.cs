@@ -13,6 +13,8 @@ public class EnemyController : MonoBehaviour
     public int maxHealth;
     public int health;
     public Healthbar healthbar;
+    public float remainingSlowTime = 0;
+    private Coroutine slowed;
 
     private bool isDead = false;
     
@@ -49,6 +51,7 @@ public class EnemyController : MonoBehaviour
     // moves the enemy through assigned waypoints and triggers attack at the end.
     private IEnumerator MoveThroughWaypoints(Transform[] waypoints)
     {
+        navMeshAgent = GetComponent<NavMeshAgent>();
         int currentWaypoint = 0;
         Debug.Log($"Starting movement through waypoints. Total waypoints: {waypoints.Length}");
         while (currentWaypoint < waypoints.Length)
@@ -88,6 +91,11 @@ public class EnemyController : MonoBehaviour
         
         Attack();
     }
+
+    public void Slow(float time)
+    {
+        remainingSlowTime += time;
+    }
  
     // does the attacking animation by setting the attack state.
     private void Attack()
@@ -99,6 +107,7 @@ public class EnemyController : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        Debug.Log($"Taking {damage} damage, current health: {health}");
         health -= damage;
         healthbar.UpdateHealthbar(maxHealth, health);
         if (health > 0)
@@ -148,9 +157,26 @@ public class EnemyController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // updates each frame to handle attack animation triggering.
     private void Update()
     {
+        if (remainingSlowTime > 0)
+        {
+            navMeshAgent.speed = 10;
+            remainingSlowTime -= Time.deltaTime;
+        }
+        else
+        {
+            if (navMeshAgent == null)
+            {
+                navMeshAgent = GetComponent<NavMeshAgent>();
+            }   
+            
+            if (navMeshAgent.speed != 40)
+            {
+                navMeshAgent.speed = 40;
+            }
+        }
+
         if (attack)
         {
             transform.LookAt(EnemyManager.instance.level.headquaters.transform.position);

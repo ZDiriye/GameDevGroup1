@@ -9,7 +9,6 @@ public class TowerWheelButtonController : MonoBehaviour
     public Animator anim;
     public string itemName;
     public TextMeshProUGUI itemText;
-    private bool selected = false;
 
     void Start()
     {
@@ -18,38 +17,21 @@ public class TowerWheelButtonController : MonoBehaviour
 
     }
 
-    void Update()
+    public void HoverEnter()
     {
-        if (selected)
+        if (!anim.GetBool("Hover"))  // Only set hover if not already hovering
         {
+            anim.SetBool("Hover", true);
             itemText.text = itemName;
         }
     }
 
-    public void Selected()
-    {
-        selected = true;
-        TowerWheelController.towerID = id;
-        GameplayUIController.instance.towerWheelController.Close();
-    }
-
-    public void DeSelected()
-    {
-        selected = false;
-        TowerWheelController.towerID = 0;
-    }
-
-    public void HoverEnter()
-    {
-        anim.SetBool("Hover", true);
-        itemText.text = itemName;
-    }
-
-
     public void HoverExit()
     {
-        anim.SetBool("Hover", false);
-        itemText.text = "";
+        if (anim.GetBool("Hover"))   // Only unset hover if currently hovering
+        {
+            anim.SetBool("Hover", false);
+            itemText.text = "";
+        }
     }
-
 }

@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class TowerWheelController : MonoBehaviour
 {
     public Animator anim;
-    public static int towerID; // Instance variable now
     public Camera cam;
     private bool isOpen = false;
 
@@ -12,9 +13,18 @@ public class TowerWheelController : MonoBehaviour
     {
         if (!isOpen) // Open the menu only if it's not already open
         {
-            Vector3 offsetPosition = position + new Vector3(0, 40.0f, 0f);
-            transform.rotation = cam.transform.rotation;
-            transform.position = offsetPosition;
+            // Convert screen center to world position
+            Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, cam.nearClipPlane);
+            Vector3 worldCenter = cam.ScreenToWorldPoint(screenCenter);
+
+            // Offset the wheel slightly toward the camera's center
+            transform.position = position + (worldCenter - position) * 0.1f;
+            transform.position += cam.transform.up * 10f;
+            transform.position += cam.transform.right * -2f;
+
+            // Ensure the wheel faces the camera
+            transform.LookAt(transform.position + cam.transform.forward);
+
             ToggleTowerWheel(true); // Open the menu
         }
     }
@@ -23,18 +33,27 @@ public class TowerWheelController : MonoBehaviour
     {
         anim.SetBool("OpenTowerWheel", open);
         isOpen = open;
+        RefreshEventSystem();
     }
 
     public void Close()
     {
         if (isOpen)
         {
-            // Pass the selected towerID to the GameplayUIController
-            if (TowerWheelController.towerID > 0)
-            {
-                GameplayUIController.instance.PlaceSelectedTower(TowerWheelController.towerID);
-            }
             ToggleTowerWheel(false);
         }
+    }
+
+    public void RefreshEventSystem()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+        EventSystem.current.SetSelectedGameObject(pointerData.pointerCurrentRaycast.gameObject);
     }
 }

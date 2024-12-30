@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1825842174704251617}
   - component: {fileID: 2516798162008918433}
   m_Layer: 0
-  m_Name: FireBall
+  m_Name: IceBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,8 +119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  StartMarker: {x: 0, y: 0, z: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
   SpeedTravel: 0
-  initialise: 0
-  StartTime: 0
   projectileType: 2
+  arcHeight: 25
+  distanceThreshold: 0.25

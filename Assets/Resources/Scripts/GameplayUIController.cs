@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameplayUIController : MonoBehaviour
 {
     public HeadquarterController headquarters;
     public Image healthDisplay;
-    public GameObject arrowTowerPrefab, fireTowerPrefab, cannonTowerPrefab;
-    public Button arrowTowerButton, fireTowerButton, cannonTowerButton;
+    public GameObject arrowTowerPrefab, iceTowerPrefab, bombTowerPrefab;
+    public Button arrowTowerButton, iceTowerButton, bombTowerButton;
     public static GameplayUIController instance;
     public TowerPlacementController pointController;
     public TowerWheelController towerWheelController;
     private TowerPlacementController activeHammer;
+    private bool isPlacingTower = false;
+    
 
 
     public void Awake()
@@ -37,7 +40,8 @@ public class GameplayUIController : MonoBehaviour
             healthDisplay.fillAmount = normalisedHealth;
         }
 
-        if (Input.GetMouseButtonDown(0)) // Detect clicks outside
+        // Detect clicks outside UI elements
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) // Check if the click is not on a UI element
         {
             if (activeHammer != null)
             {
@@ -45,34 +49,26 @@ public class GameplayUIController : MonoBehaviour
                 RaycastHit hit;
 
                 // Check if the click is outside the active hammer and menu
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit) &&
+                    (!hit.transform.IsChildOf(activeHammer.transform) &&
+                    !hit.transform.IsChildOf(towerWheelController.transform)))
                 {
-                    if (!hit.transform.IsChildOf(activeHammer.transform) && 
-                        !hit.transform.IsChildOf(towerWheelController.transform))
-                    {
-                        CloseActiveMenu();
-                    }
+                    CloseActiveMenu();
                 }
             }
         }
     }
 
-    public void HandleHammerClick(TowerPlacementController hammer, Vector3 position)
+
+    public void OpenTowerWheel(TowerPlacementController hammer, Vector3 position)
     {
         pointController = hammer;
         if (activeHammer == hammer)
         {
-            // If the same hammer is clicked, keep the menu open
-            Debug.Log("Menu already open for this hammer.");
+            CloseActiveMenu();
             return;
         }
-
-        // Open menu for the clicked hammer
-        OpenTowerWheel(hammer, position);
-    }
-
-    public void OpenTowerWheel(TowerPlacementController hammer, Vector3 position)
-    {
+        
         // Close the menu for the currently active hammer, if any
         if (activeHammer != null)
         {
@@ -88,28 +84,30 @@ public class GameplayUIController : MonoBehaviour
 
     public void CloseActiveMenu()
     {
-        if (activeHammer != null)
-        {
-            towerWheelController.Close();
-            Debug.Log($"Menu closed for hammer: {activeHammer.gameObject.name}");
-            activeHammer = null;
-        }
+        towerWheelController.Close();
+        activeHammer = null;
     }
 
     public void PlaceSelectedTower(int towerID)
     {
+        if (isPlacingTower)
+        {
+            Debug.Log("Attempt to place a tower while another placement is in progress.");
+            return;
+        }
+
+        isPlacingTower = true;
         GameObject towerPrefab = null;
 
-        // Match the ID to the correct prefab
         switch (towerID)
         {
-            case 1: // Example ID for Arrow Tower
-                towerPrefab = fireTowerPrefab;
+            case 1:
+                towerPrefab = iceTowerPrefab;
                 break;
-            case 2: // Example ID for Fire Tower
-                towerPrefab = cannonTowerPrefab;
+            case 2:
+                towerPrefab = bombTowerPrefab;
                 break;
-            case 3: // Example ID for Cannon Tower
+            case 3:
                 towerPrefab = arrowTowerPrefab;
                 break;
             default:
@@ -119,41 +117,55 @@ public class GameplayUIController : MonoBehaviour
 
         if (activeHammer != null && towerPrefab != null)
         {
-            // Instantiate the selected tower at the hammer's position
             GameObject tower = Instantiate(towerPrefab);
             Vector3 adjustedPosition = pointController.transform.position;
-            adjustedPosition.y -= 10.0f; // Move the tower down by 4.3 units
+            adjustedPosition.y -= 5.0f;  // Ensure this value is correct
             tower.transform.position = adjustedPosition;
+
+            Debug.Log($"Tower placed: {tower.name} at {tower.transform.position}");
+
             pointController.TowerPlaced(tower.GetComponent<BaseTowerController>());
-
-            Debug.Log($"Tower placed: {tower.name}");
-
-            Debug.Log($"Tower position after placement: {tower.transform.position}");
-            Debug.Log($"Tower active state: {tower.activeInHierarchy}");
-
         }
+        else
+        {
+            Debug.Log("Active hammer not set or prefab not found.");
+        }
+
+        Debug.Log("Tower ID: " + towerID);
+        Debug.Log("Active Hammer: " + (activeHammer != null).ToString());
+        Debug.Log("Tower Prefab: " + (towerPrefab != null).ToString());
+        Debug.Log("Point Controller Position: " + pointController.transform.position);
+
+
+        isPlacingTower = false;
     }
 
 
     private void SetUpButtons()
     {
-        fireTowerButton.onClick.AddListener(() =>
+        Debug.Log("Setting up buttons...");
+
+        iceTowerButton.onClick.AddListener(() =>
         {
-            PlaceSelectedTower(1); // Fire Tower ID
-            towerWheelController.Close();
+            Debug.Log("Fire Tower Button Clicked");
+            PlaceSelectedTower(1);
+            CloseActiveMenu();
         });
 
-        cannonTowerButton.onClick.AddListener(() =>
+        bombTowerButton.onClick.AddListener(() =>
         {
-            PlaceSelectedTower(2); // Bomb Tower ID
-            towerWheelController.Close();
+            Debug.Log("Cannon Tower Button Clicked");
+            PlaceSelectedTower(2);
+            CloseActiveMenu();
         });
 
         arrowTowerButton.onClick.AddListener(() =>
         {
-            PlaceSelectedTower(3); // Arrow Tower ID
-            towerWheelController.Close();
+            Debug.Log("Arrow Tower Button Clicked");
+            PlaceSelectedTower(3);
+            CloseActiveMenu();
         });
     }
+
 
 }
