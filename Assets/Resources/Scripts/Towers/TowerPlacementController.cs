@@ -24,6 +24,7 @@ public class TowerPlacementController : MonoBehaviour
     {
         if (!placed) // Only if the tower hasn't been placed yet
         {
+            Debug.Log("Pressed");
             Vector3 hammerPosition = hammer.transform.position;
             GameplayUIController.instance.OpenTowerWheel(this, hammerPosition);
         }

@@ -9,6 +9,17 @@ public class TowerWheelButtonController : MonoBehaviour
     public Animator anim;
     public string itemName;
     public TextMeshProUGUI itemText;
+    private CursorManager cursorManager;
+
+    private void OnMouseEnter()
+    {
+        CursorManager.Instance.SetPointingCursor();
+    }
+
+    private void OnMouseExit()
+    {
+        CursorManager.Instance.SetDefaultCursor();
+    }
 
     void Start()
     {

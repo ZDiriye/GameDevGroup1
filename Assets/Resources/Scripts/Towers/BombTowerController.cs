@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class BombTowerController : BaseTowerController
 {
+    [SerializeField] private GameObject PoofEffect; 
     protected virtual void Awake()
     {
         shootingCoolDown = 3.5f;
@@ -26,6 +27,7 @@ public class BombTowerController : BaseTowerController
             projectile.transform.rotation = shootingPoint.rotation;
             projectile.GetComponent<Projectiles>().Initialise(target.position, 1.5f);
 
+            Instantiate(PoofEffect, shootingPoint.position, Quaternion.identity);
             yield return new WaitForSeconds(shootingCoolDown);
             cooldownTimer = shootingCoolDown;
         }

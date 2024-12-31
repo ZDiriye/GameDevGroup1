@@ -12,6 +12,7 @@ public class Projectiles : MonoBehaviour
 
     [SerializeField] private float arcHeight;       
     [SerializeField] private float distanceThreshold;
+    [SerializeField] private GameObject explosionEffect; 
 
     // Called by the tower. This is how we know the final position we want to reach.
     public void Initialise(Vector3 target, float speedTravel)
@@ -92,9 +93,15 @@ public class Projectiles : MonoBehaviour
             float currentDistanceToTarget = Vector3.Distance(transform.position, targetPosition);
             if (currentDistanceToTarget < distanceThreshold)
             {
-                AOE(15);
+                Explode();
             }
         }
+    }
+
+    private void Explode()
+    {
+        AOE(15);
+        Instantiate(explosionEffect, transform.position, Quaternion.identity);
     }
 
     protected virtual void OnTriggerEnter(Collider other)

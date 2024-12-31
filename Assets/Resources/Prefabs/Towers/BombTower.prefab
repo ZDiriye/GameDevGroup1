@@ -4642,7 +4642,7 @@ Transform:
   m_GameObject: {fileID: 1696700608515380459}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.1, y: 0, z: 15.8}
+  m_LocalPosition: {x: 32.62098, y: 0, z: 1.5667534}
   m_LocalScale: {x: 25, y: 25, z: 25}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4737,6 +4737,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3338797074787679770, guid: 2a7e44a37e974418da5cce627607c44e, type: 3}
   shootingPoint: {fileID: 7000461871736115626}
   shootingCoolDown: 5
+  PoofEffect: {fileID: 141433446842962269, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
 --- !u!135 &6257231916775334391
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4783,7 +4784,7 @@ Transform:
   m_GameObject: {fileID: 8325341513205363459}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.58, z: -0}
+  m_LocalPosition: {x: 0, y: 0.627, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
