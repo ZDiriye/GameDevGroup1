@@ -5,15 +5,16 @@ using UnityEngine;
 public class BaseTowerController : MonoBehaviour
 {
     public GameObject projectilePrefab;
-    protected float shootingCoolDown;
+    public Transform shootingPoint;
+    public float shootingCoolDown;
     protected Coroutine shoot;
     protected bool shooting;
-    public Transform shootingPoint;
     protected List<Collider> enemiesInRange = new List<Collider>();
     protected Collider targetCollider;
     protected float cooldownTimer = 0f;
+    protected float densityRadius = 15f;
 
-    // ShootTarget coroutine needs to be implemented by derived classes
+    /// Coroutine for shooting at the target. To be implemented by derived classes.
     public virtual IEnumerator ShootTarget(Transform target)
     {
         throw new System.NotImplementedException();
@@ -21,47 +22,85 @@ public class BaseTowerController : MonoBehaviour
 
     protected virtual void Update()
     {
-        // Decrement the cooldown timer
+        // Update cooldown timer
         if (cooldownTimer > 0)
             cooldownTimer -= Time.deltaTime;
 
+        // Remove null references
         enemiesInRange.RemoveAll(enemy => enemy == null);
-        Collider closestEnemy = GetClosestEnemy();
 
-        if (closestEnemy != null && cooldownTimer <= 0)
+        // Select target based on derived class logic
+        Collider selectedTarget = SelectTarget();
+
+        if (selectedTarget != null && cooldownTimer <= 0)
         {
-            if (targetCollider == null || closestEnemy != targetCollider)
+            if (targetCollider == null || selectedTarget != targetCollider)
             {
-                // Switch to the new closest enemy and reset the cooldown
-                SwitchTarget(closestEnemy);
+                SwitchTarget(selectedTarget);
             }
         }
-        else if (shooting && closestEnemy == null)
+        else if (shooting && selectedTarget == null)
         {
-            // If no enemies are in range, stop shooting
             StopShooting();
         }
     }
 
+    /// Selects the target based on specific tower logic. Override in derived classes.
+    protected virtual Collider SelectTarget()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    /// Switches the current target and starts shooting.
     private void SwitchTarget(Collider newTarget)
     {
         targetCollider = newTarget;
+
         if (shooting)
         {
             StopCoroutine(shoot);
             shooting = false;
         }
 
-        // Start shooting at the new target if the cooldown has elapsed
         if (cooldownTimer <= 0)
         {
             shoot = StartCoroutine(ShootTarget(newTarget.transform));
-            cooldownTimer = shootingCoolDown; // Reset the cooldown timer
+            cooldownTimer = shootingCoolDown;
         }
     }
 
+    protected Collider CalculateHighestDensityCluster()
+    {
+        if (enemiesInRange.Count == 0) return null;
 
-    // Finds the closest enemy from the enemiesInRange list
+        Collider bestTarget = null;
+        int maxDensity = 0;
+
+        // Iterate over each enemy to find where the most enemies are clustered around it
+        foreach (Collider enemy in enemiesInRange)
+        {
+            if (enemy == null) continue;
+            int densityCount = 0;
+
+            foreach (Collider other in enemiesInRange)
+            {
+                if (other == null) continue;
+                if (Vector3.Distance(enemy.transform.position, other.transform.position) <= densityRadius)
+                    densityCount++;
+            }
+
+            // Select the enemy that has the highest number of neighbors within the density radius
+            if (densityCount > maxDensity)
+            {
+                maxDensity = densityCount;
+                bestTarget = enemy;
+            }
+        }
+
+        return bestTarget;
+    }
+
+    /// Finds the closest enemy from the enemiesInRange list.
     protected Collider GetClosestEnemy()
     {
         Collider closest = null;
@@ -70,7 +109,7 @@ public class BaseTowerController : MonoBehaviour
 
         foreach (Collider enemy in enemiesInRange)
         {
-            if (enemy == null) continue; // Skip if enemy has been destroyed
+            if (enemy == null) continue;
 
             float distance = Vector3.Distance(currentPosition, enemy.transform.position);
             if (distance < minDistance)
@@ -83,38 +122,32 @@ public class BaseTowerController : MonoBehaviour
         return closest;
     }
 
-    // Detects enemies entering the tower's range
+    /// Handles enemies entering the tower's range.
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") && !enemiesInRange.Contains(other))
         {
-            if (!enemiesInRange.Contains(other))
-            {
-                enemiesInRange.Add(other);
-                Debug.Log($"{gameObject.name}: Enemy entered range - {other.name}");
-            }
+            enemiesInRange.Add(other);
+            Debug.Log($"{gameObject.name}: Enemy entered range - {other.name}");
         }
     }
 
-    // Detects enemies exiting the tower's range
+    /// Handles enemies exiting the tower's range.
     protected virtual void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") && enemiesInRange.Contains(other))
         {
-            if (enemiesInRange.Contains(other))
-            {
-                enemiesInRange.Remove(other);
-                Debug.Log($"{gameObject.name}: Enemy exited range - {other.name}");
-            }
+            enemiesInRange.Remove(other);
+            Debug.Log($"{gameObject.name}: Enemy exited range - {other.name}");
+        }
 
-            if (other == targetCollider)
-            {
-                StopShooting();
-            }
+        if (other == targetCollider)
+        {
+            StopShooting();
         }
     }
 
-    // Resets the shooting state and clears the current target
+    /// Stops shooting and resets the current target.
     protected virtual void StopShooting()
     {
         if (shoot != null)

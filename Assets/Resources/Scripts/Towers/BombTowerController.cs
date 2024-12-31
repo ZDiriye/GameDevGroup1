@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BombTowerController : BaseTowerController
@@ -10,7 +9,13 @@ public class BombTowerController : BaseTowerController
         Debug.Log($"{gameObject.name}: Awake - shootingCoolDown set to {shootingCoolDown}");
     }
 
-    // Shoots projectiles at the current target with a cooldown.
+     /// Selects the nearest enemy as the target.
+    protected override Collider SelectTarget()
+    {
+        return CalculateHighestDensityCluster();
+    }
+
+    /// Coroutine to shoot arrows at the targeted enemy.
     public override IEnumerator ShootTarget(Transform target)
     {
         shooting = true;
@@ -20,9 +25,9 @@ public class BombTowerController : BaseTowerController
             projectile.transform.position = shootingPoint.position;
             projectile.transform.rotation = shootingPoint.rotation;
             projectile.GetComponent<Projectiles>().Initialise(target.position, 1.5f);
-            
-            cooldownTimer = shootingCoolDown;
+
             yield return new WaitForSeconds(shootingCoolDown);
+            cooldownTimer = shootingCoolDown;
         }
     }
 }

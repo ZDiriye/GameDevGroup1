@@ -44,6 +44,8 @@ public class Projectiles : MonoBehaviour
 
     private void Update()
     {
+        if (!initialise) return;
+
         if (projectileType == ProjectileType.Arrow)
         {
             if (Target == null)
@@ -52,9 +54,9 @@ public class Projectiles : MonoBehaviour
                 return;
             }
 
-            Vector3 direction = (Target.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 100000);
+            Vector3 direction = Target.position - transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 1000000);
 
             transform.position = Vector3.MoveTowards(transform.position, Target.position, 45 * SpeedTravel * Time.deltaTime);
         }
@@ -67,7 +69,7 @@ public class Projectiles : MonoBehaviour
             }
 
             float totalDistance = Vector3.Distance(startPos, targetPosition);
-            float movePerSec = 15f * SpeedTravel;
+            float movePerSec = 35f * SpeedTravel;
             float distanceCovered = movePerSec * (Time.time - StartTime);
             float t = distanceCovered / totalDistance;
 
@@ -90,7 +92,7 @@ public class Projectiles : MonoBehaviour
             float currentDistanceToTarget = Vector3.Distance(transform.position, targetPosition);
             if (currentDistanceToTarget < distanceThreshold)
             {
-                AOE(20);
+                AOE(15);
             }
         }
     }
@@ -99,7 +101,7 @@ public class Projectiles : MonoBehaviour
     {
         if (other.CompareTag("Enemy") && projectileType == ProjectileType.Arrow)
         {
-            other.GetComponent<EnemyController>().TakeDamage(15);
+            other.GetComponent<EnemyController>().TakeDamage(10);
             Destroy(gameObject);
         }
     }
@@ -111,7 +113,7 @@ public class Projectiles : MonoBehaviour
         {
             if (hit.CompareTag("Enemy"))
             {
-                hit.GetComponent<EnemyController>().TakeDamage(20);
+                hit.GetComponent<EnemyController>().TakeDamage(15);
             }
         }
         Destroy(gameObject);

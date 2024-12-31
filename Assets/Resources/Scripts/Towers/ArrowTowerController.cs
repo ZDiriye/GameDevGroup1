@@ -8,8 +8,14 @@ public class ArrowTowerController : BaseTowerController
         shootingCoolDown = 2f;
         Debug.Log($"{gameObject.name}: Awake - shootingCoolDown set to {shootingCoolDown}");
     }
-    
-    // Shoots projectiles at the current target with a cooldown.
+
+    /// Selects the nearest enemy as the target.
+    protected override Collider SelectTarget()
+    {
+        return GetClosestEnemy();
+    }
+
+    /// Coroutine to shoot arrows at the targeted enemy.
     public override IEnumerator ShootTarget(Transform target)
     {
         shooting = true;
