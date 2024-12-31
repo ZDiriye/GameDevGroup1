@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class IceTowerController : BaseTowerController
 {
+    [SerializeField] private GameObject PoofEffect; 
     protected virtual void Awake()
     {
-        shootingCoolDown = 4f;
+        shootingCoolDown = 2f;
         Debug.Log($"{gameObject.name}: Awake - shootingCoolDown set to {shootingCoolDown}");
     }
 
-    // Shoots projectiles at the closest enemy with a cooldown.
+     /// Selects the nearest enemy as the target.
+    protected override Collider SelectTarget()
+    {
+        return CalculateHighestDensityCluster();
+    }
+
+    /// Coroutine to shoot arrows at the targeted enemy.
     public override IEnumerator ShootTarget(Transform target)
     {
         shooting = true;
@@ -20,8 +27,10 @@ public class IceTowerController : BaseTowerController
             projectile.transform.position = shootingPoint.position;
             projectile.transform.rotation = shootingPoint.rotation;
             projectile.GetComponent<Projectiles>().Initialise(target.position, 1.5f);
+
+            Instantiate(PoofEffect, shootingPoint.position, Quaternion.identity);
             yield return new WaitForSeconds(shootingCoolDown);
+            cooldownTimer = shootingCoolDown;
         }
-        yield return null;
     }
 }

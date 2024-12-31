@@ -6,7 +6,7 @@ public class BombTowerController : BaseTowerController
     [SerializeField] private GameObject PoofEffect; 
     protected virtual void Awake()
     {
-        shootingCoolDown = 3.5f;
+        shootingCoolDown = 2.5f;
         Debug.Log($"{gameObject.name}: Awake - shootingCoolDown set to {shootingCoolDown}");
     }
 

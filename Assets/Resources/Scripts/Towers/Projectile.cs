@@ -61,7 +61,7 @@ public class Projectiles : MonoBehaviour
 
             transform.position = Vector3.MoveTowards(transform.position, Target.position, 45 * SpeedTravel * Time.deltaTime);
         }
-        else if (projectileType == ProjectileType.CannonBall)
+        else if (projectileType == ProjectileType.CannonBall || projectileType == ProjectileType.IceBall)
         {
             if (targetPosition == null)
             {
@@ -108,7 +108,7 @@ public class Projectiles : MonoBehaviour
     {
         if (other.CompareTag("Enemy") && projectileType == ProjectileType.Arrow)
         {
-            other.GetComponent<EnemyController>().TakeDamage(10);
+            other.GetComponent<EnemyController>().TakeDamage(12);
             Destroy(gameObject);
         }
     }
@@ -120,7 +120,15 @@ public class Projectiles : MonoBehaviour
         {
             if (hit.CompareTag("Enemy"))
             {
-                hit.GetComponent<EnemyController>().TakeDamage(15);
+                if (projectileType == ProjectileType.CannonBall)
+                {
+                    hit.GetComponent<EnemyController>().TakeDamage(25);
+                }
+                else if (projectileType == ProjectileType.IceBall)
+                {
+                    hit.GetComponent<EnemyController>().TakeDamage(10);
+                    hit.GetComponent<EnemyController>().Slow(3);
+                }
             }
         }
         Destroy(gameObject);

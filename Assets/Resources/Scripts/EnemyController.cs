@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// controls enemy navigation and attacking behaviors.
+// Controls enemy navigation and attacking behaviors.
 public class EnemyController : MonoBehaviour
 {
     public Animator animator;
@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour
         healthbar.UpdateHealthbar(maxHealth, health);
     }
 
-    // sets up enemy's navigation agent and starts the movement through waypoints
+    // Sets up enemy's navigation agent and starts the movement through waypoints
     public void Initialise(Transform[] waypoints, bool strong, bool fast)
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -33,7 +33,7 @@ public class EnemyController : MonoBehaviour
             Debug.LogError("NavMeshAgent component not found on the GameObject.");
             return;
         }
-        Debug.Log(navMeshAgent.isOnNavMesh);
+        
         if (fast)
         {
             navMeshAgent.speed *= 2;
@@ -92,9 +92,15 @@ public class EnemyController : MonoBehaviour
         Attack();
     }
 
-    public void Slow(float time)
+    public void Slow(float duration)
     {
-        remainingSlowTime += time;
+        if (remainingSlowTime <= 0) 
+        {
+            navMeshAgent.acceleration *= 0.5f;
+            navMeshAgent.speed *= 0.5f;
+            navMeshAgent.angularSpeed *= 0.5f;
+        }
+        remainingSlowTime = duration;
     }
  
     // does the attacking animation by setting the attack state.
@@ -115,7 +121,6 @@ public class EnemyController : MonoBehaviour
             animator.SetBool("IsHit", true);
             Debug.Log("GetHit animation triggered.");
 
-            // Optionally, reset the IsHit boolean back to false after a short delay
             StartCoroutine(ResetHitAnimation());
         }
         else
@@ -127,7 +132,7 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator ResetHitAnimation()
     {
-        yield return new WaitForSeconds(0.2f);  // Assuming the GetHit animation is around 1 second long
+        yield return new WaitForSeconds(0.2f); 
         animator.SetBool("IsHit", false);
     }
 
@@ -161,19 +166,12 @@ public class EnemyController : MonoBehaviour
     {
         if (remainingSlowTime > 0)
         {
-            navMeshAgent.speed = 10;
             remainingSlowTime -= Time.deltaTime;
-        }
-        else
-        {
-            if (navMeshAgent == null)
+            if (remainingSlowTime <= 0)
             {
-                navMeshAgent = GetComponent<NavMeshAgent>();
-            }   
-            
-            if (navMeshAgent.speed != 40)
-            {
-                navMeshAgent.speed = 40;
+                navMeshAgent.acceleration *= 2.0f;
+                navMeshAgent.speed *= 2.0f;
+                navMeshAgent.angularSpeed *= 2.0f;
             }
         }
 

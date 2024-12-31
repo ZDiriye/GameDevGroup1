@@ -963,6 +963,7 @@ MonoBehaviour:
   health: 100
   healthbar: {fileID: 2519327266007427475}
   remainingSlowTime: 0
+  normalMaterial: {fileID: 2100000, guid: c15c315488711804d80c2b2bab50154c, type: 2}
 --- !u!195 &6936693128343917046
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -973,7 +974,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 40
+  m_Speed: 100
   m_Acceleration: 5
   avoidancePriority: 0
   m_AngularSpeed: 150

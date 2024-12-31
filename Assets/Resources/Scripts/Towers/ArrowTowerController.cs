@@ -5,7 +5,7 @@ public class ArrowTowerController : BaseTowerController
 {
     protected virtual void Awake()
     {
-        shootingCoolDown = 2f;
+        shootingCoolDown = 1f;
         Debug.Log($"{gameObject.name}: Awake - shootingCoolDown set to {shootingCoolDown}");
     }
 

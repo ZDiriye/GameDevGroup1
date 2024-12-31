@@ -5218,9 +5218,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 6551323582924673045, guid: 8acfd744de6674be0bfe0559bb5805af, type: 3}
-  shootingCoolDown: 2
   shootingPoint: {fileID: 5305739381251612638}
-  enemiesInRange: []
+  shootingCoolDown: 2
+  PoofEffect: {fileID: 141433446842962269, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
 --- !u!135 &6230744583246674745
 SphereCollider:
   m_ObjectHideFlags: 0
