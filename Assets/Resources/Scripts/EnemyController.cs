@@ -6,6 +6,7 @@ using UnityEngine.AI;
 // Controls enemy navigation and attacking behaviors.
 public class EnemyController : MonoBehaviour
 {
+    private EnemyManager enemyManager;
     public Animator animator;
     private Transform[] waypoints;
     private NavMeshAgent navMeshAgent;
@@ -15,14 +16,9 @@ public class EnemyController : MonoBehaviour
     public Healthbar healthbar;
     public float remainingSlowTime = 0;
     private Coroutine slowed;
-
     private bool isDead = false;
-    
-    public void Start ()
-    {
-        health = maxHealth; 
-        healthbar.UpdateHealthbar(maxHealth, health);
-    }
+    private bool hasReportedDeath = false;
+ 
 
     // Sets up enemy's navigation agent and starts the movement through waypoints
     public void Initialise(Transform[] waypoints, bool strong, bool fast)
@@ -34,15 +30,21 @@ public class EnemyController : MonoBehaviour
             return;
         }
         
-        if (fast)
+        if (fast && !strong)
         {
-            navMeshAgent.speed *= 2;
+            fastPace();
         }
 
         if (strong)
         {
-            health *= 2;
+            maxHealth *= 2;
+            transform.localScale *= 1.4f;
+            slowPace();
+            
         }
+
+        health = maxHealth;
+        healthbar.UpdateHealthbar(maxHealth, health);
 
         this.waypoints = waypoints;
         StartCoroutine(MoveThroughWaypoints(waypoints));
@@ -96,9 +98,7 @@ public class EnemyController : MonoBehaviour
     {
         if (remainingSlowTime <= 0) 
         {
-            navMeshAgent.acceleration *= 0.5f;
-            navMeshAgent.speed *= 0.5f;
-            navMeshAgent.angularSpeed *= 0.5f;
+            slowPace();
         }
         remainingSlowTime = duration;
     }
@@ -138,17 +138,21 @@ public class EnemyController : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Die Trigger Sent.");
-        isDead = true;  // Mark as dead to halt movement checks
-
-        if (navMeshAgent != null && navMeshAgent.isOnNavMesh)
+        if (!hasReportedDeath)
         {
-            navMeshAgent.isStopped = true;
-            navMeshAgent.enabled = false;
-        }
+            Debug.Log("Die Trigger Sent for " + gameObject.name);
+            isDead = true;
 
-        animator.SetTrigger("Die");
-        StartCoroutine(WaitForDeathAnimation());  // Ensure this is being called
+            if (navMeshAgent != null && navMeshAgent.isOnNavMesh)
+            {
+                navMeshAgent.isStopped = true;
+                navMeshAgent.enabled = false;
+            }
+
+            animator.SetTrigger("Die");
+            StartCoroutine(WaitForDeathAnimation());
+            hasReportedDeath = true;
+        }
     }
 
     private IEnumerator WaitForDeathAnimation()
@@ -157,6 +161,9 @@ public class EnemyController : MonoBehaviour
         yield return new WaitUntil(() =>
             animator.GetCurrentAnimatorStateInfo(0).IsName("Die") &&
             animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+
+        
+        EnemyManager.instance.ReportEnemyDeath();
 
         Debug.Log("Death animation complete, destroying object.");
         Destroy(gameObject);
@@ -169,9 +176,7 @@ public class EnemyController : MonoBehaviour
             remainingSlowTime -= Time.deltaTime;
             if (remainingSlowTime <= 0)
             {
-                navMeshAgent.acceleration *= 2.0f;
-                navMeshAgent.speed *= 2.0f;
-                navMeshAgent.angularSpeed *= 2.0f;
+                fastPace();
             }
         }
 
@@ -180,5 +185,19 @@ public class EnemyController : MonoBehaviour
             transform.LookAt(EnemyManager.instance.level.headquaters.transform.position);
             animator.SetTrigger("Attack");
         }
+    }
+
+    private void fastPace()
+    {
+        navMeshAgent.acceleration *= 2.0f;
+        navMeshAgent.speed *= 2.0f;
+        navMeshAgent.angularSpeed *= 2.0f;
+    }
+
+    private void slowPace()
+    {
+        navMeshAgent.acceleration *= 0.5f;
+        navMeshAgent.speed *= 0.5f;
+        navMeshAgent.angularSpeed *= 0.5f;
     }
 }

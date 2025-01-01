@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 
 public class HeadquarterController : MonoBehaviour
@@ -8,20 +9,23 @@ public class HeadquarterController : MonoBehaviour
     public Color hitColor = Color.red;
     public float flashDuration = 0.1f;
     private Color originalColor;
-
     public float health;
+    public Text UserHealthText;
+
 
     public void Start()
     {
         buildingRenderer = GetComponent<Renderer>();
         originalColor = buildingRenderer.material.GetColor("_Color");
-
+        UserHealthText.text = health.ToString();
     }
 
     // for user's headquarters to take damage.
     public void Damage(float amount)
     {
         health -= amount;
+        UserHealthText.text = health.ToString();
+
         StartCoroutine(FlashDamageEffect());
 
         if (health <= 0) 

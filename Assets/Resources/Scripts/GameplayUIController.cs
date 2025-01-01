@@ -6,8 +6,6 @@ using UnityEngine.EventSystems;
 
 public class GameplayUIController : MonoBehaviour
 {
-    public HeadquarterController headquarters;
-    public Image healthDisplay;
     public GameObject arrowTowerPrefab, iceTowerPrefab, bombTowerPrefab;
     public Button arrowTowerButton, iceTowerButton, bombTowerButton;
     public static GameplayUIController instance;
@@ -34,12 +32,6 @@ public class GameplayUIController : MonoBehaviour
     // Updates the user's health
     public void Update()
     {
-        float normalisedHealth = headquarters.health / 100.0f; 
-        if (healthDisplay.fillAmount != normalisedHealth)
-        {
-            healthDisplay.fillAmount = normalisedHealth;
-        }
-
         // Detect clicks outside UI elements
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) // Check if the click is not on a UI element
         {

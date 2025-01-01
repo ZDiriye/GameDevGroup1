@@ -12,6 +12,12 @@ public class EnemyManager : MonoBehaviour
     public float spawnIntervalMin; 
     public float spawnIntervalMax; 
     public Transform [] spawnpoint;
+    private int activeEnemyCount = 0;
+
+    public int ActiveEnemyCount 
+    { 
+        get { return activeEnemyCount; } 
+    }
 
     public void Awake()
     {
@@ -24,21 +30,6 @@ public class EnemyManager : MonoBehaviour
             Debug.Log("More than one EnemyManager in the scene");
         }
     }
-
-    private void Start()
-    {
-        StartCoroutine(GenerateEnemy());
-    }
-
-    private IEnumerator GenerateEnemy()
-    {
-        for (int i = 0; i < maxEnemies; i++)
-        {
-            SpawnEnemy(Random.Range(0,enemyPrefabs.Length), Random.Range(0,2), false, false);
-            yield return new WaitForSeconds(Random.Range(spawnIntervalMin, spawnIntervalMax));
-        }
-    }
-
 
     public void SpawnEnemy(int enemyIndex, int pathIndex, bool strong, bool fast)
     {
@@ -56,5 +47,12 @@ public class EnemyManager : MonoBehaviour
             enemy.transform.position = spawnpoint[1].position;
             enemyController.Initialise(navigationPath1, strong, fast);
         }
+        activeEnemyCount++;
+    }
+
+    public void ReportEnemyDeath()
+    {
+        activeEnemyCount--;
+        Debug.Log("Enemy died. Remaining: " + activeEnemyCount);
     }
 }
