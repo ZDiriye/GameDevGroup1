@@ -13,21 +13,24 @@ public class Projectiles : MonoBehaviour
     [SerializeField] private float arcHeight;       
     [SerializeField] private float distanceThreshold;
     [SerializeField] private GameObject explosionEffect; 
+    private int damage;
 
     // Called by the tower. This is how we know the final position we want to reach.
-    public void Initialise(Vector3 target, float speedTravel)
+    public void Initialise(Vector3 target, float speedTravel, int damage) //damage
     {
         this.targetPosition = target;
         this.SpeedTravel = speedTravel;
         this.StartTime = Time.time;
+        this.damage = damage;
         initialise = true;
     }
 
-    public void Initialise(Transform target, float speedTravel)
+    public void Initialise(Transform target, float speedTravel, int damage) //damage
     {
         this.Target = target;
         this.SpeedTravel = speedTravel;
         this.StartTime = Time.time;
+        this.damage = damage;
         initialise = true;
 
         if (Target != null)
@@ -108,7 +111,7 @@ public class Projectiles : MonoBehaviour
     {
         if (other.CompareTag("Enemy") && projectileType == ProjectileType.Arrow)
         {
-            other.GetComponent<EnemyController>().TakeDamage(12);
+            other.GetComponent<EnemyController>().TakeDamage(damage);
             Destroy(gameObject);
         }
     }
@@ -122,12 +125,12 @@ public class Projectiles : MonoBehaviour
             {
                 if (projectileType == ProjectileType.CannonBall)
                 {
-                    hit.GetComponent<EnemyController>().TakeDamage(25);
+                    hit.GetComponent<EnemyController>().TakeDamage(damage); //damage
                 }
                 else if (projectileType == ProjectileType.IceBall)
                 {
-                    hit.GetComponent<EnemyController>().TakeDamage(10);
-                    hit.GetComponent<EnemyController>().Slow(3);
+                    hit.GetComponent<EnemyController>().TakeDamage(damage); //damage
+                    hit.GetComponent<EnemyController>().Slow(5);
                 }
             }
         }

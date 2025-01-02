@@ -7,14 +7,14 @@ using UnityEngine.EventSystems;
 public class GameplayUIController : MonoBehaviour
 {
     public GameObject arrowTowerPrefab, iceTowerPrefab, bombTowerPrefab;
-    public Button arrowTowerButton, iceTowerButton, bombTowerButton;
+    public Button arrowTowerButton, iceTowerButton, bombTowerButton, upgradeButton;
     public static GameplayUIController instance;
-    public TowerPlacementController pointController;
+    public TowerPlacementController pointController, activeHammer;
+    public TowerInteractionController towerController, activeTower;
     public TowerWheelController towerWheelController;
-    private TowerPlacementController activeHammer;
-    private bool isPlacingTower = false;
-    
+    public TowerWheelController UpgradetowerWheelController;
 
+    private bool isPlacingTower = false;
 
     public void Awake()
     {
@@ -48,12 +48,32 @@ public class GameplayUIController : MonoBehaviour
                     CloseActiveMenu();
                 }
             }
+
+            if (activeTower != null)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                // Check if the click is outside the active hammer and menu
+                if (Physics.Raycast(ray, out hit) &&
+                    (!hit.transform.IsChildOf(activeTower.transform) &&
+                    !hit.transform.IsChildOf(UpgradetowerWheelController.transform)))
+                {
+                    CloseUpgradeActiveMenu();
+                }
+            }
         }
     }
 
 
     public void OpenTowerWheel(TowerPlacementController hammer, Vector3 position)
     {
+        if (activeTower != null)
+        {
+            UpgradetowerWheelController.CloseUpgrade();
+            activeTower = null;
+        }
+
         pointController = hammer;
         if (activeHammer == hammer)
         {
@@ -61,17 +81,47 @@ public class GameplayUIController : MonoBehaviour
             return;
         }
         
-        // Close the menu for the currently active hammer, if any
         if (activeHammer != null)
         {
             towerWheelController.Close();
             Debug.Log($"Menu closed for hammer: {activeHammer.gameObject.name}");
         }
 
-        // Set the position and open the new menu
         towerWheelController.SetPositionAndOpen(position);
         activeHammer = hammer;
         Debug.Log($"Menu opened for hammer: {hammer.gameObject.name}");
+    }
+
+
+    public void OpenUpgradeTowerWheel(TowerInteractionController tower, Vector3 position)
+    {
+        if (activeHammer != null)
+        {
+            towerWheelController.Close();
+            activeHammer = null;
+        }
+
+        towerController = tower;
+        if (activeTower == tower)
+        {
+            CloseUpgradeActiveMenu();
+            return;
+        }
+        
+        if (activeTower != null)
+        {
+            UpgradetowerWheelController.CloseUpgrade();
+        }
+
+        UpgradetowerWheelController.SetPositionAndOpenUpgrade(position);
+        activeTower = tower;
+    }
+
+
+    public void CloseUpgradeActiveMenu()
+    {
+        UpgradetowerWheelController.CloseUpgrade();
+        activeTower = null;
     }
 
     public void CloseActiveMenu()
@@ -132,6 +182,25 @@ public class GameplayUIController : MonoBehaviour
         isPlacingTower = false;
     }
 
+    public void UpgradeTower(BaseTowerController currentTower, TowerPlacementController placementController)
+    {
+        // Check if there is a next tower
+        if (currentTower.nextTowerPrefab == null)
+        {
+            Debug.Log("No more upgrades available for this tower.");
+            return;
+        }
+
+        Debug.Log("Upgraded Tower");
+        Vector3 oldPosition = currentTower.transform.position;
+
+        Destroy(currentTower.gameObject);
+        BaseTowerController newTower = Instantiate(currentTower.nextTowerPrefab, oldPosition, Quaternion.identity);
+        placementController.TowerPlaced(newTower);
+
+    }
+
+
 
     private void SetUpButtons()
     {
@@ -157,7 +226,15 @@ public class GameplayUIController : MonoBehaviour
             PlaceSelectedTower(3);
             CloseActiveMenu();
         });
+
+        upgradeButton.onClick.AddListener(() =>
+        {
+            Debug.Log("Upgrade Button Clicked");
+            if (activeTower != null && activeTower.tower != null && activeTower.placementController != null)
+            {
+                UpgradeTower(activeTower.tower, activeTower.placementController);
+            }
+            CloseUpgradeActiveMenu();
+        });
     }
-
-
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 107540711077034587}
   - component: {fileID: 265766274217486953}
   - component: {fileID: 266638105498670179}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: msVFX_Stylized Smoke 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4621,7 +4621,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5305739381251612638}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ShootingPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4643,6 +4643,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5891066069922232263}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5792237166799535203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7458141439066417902}
+  - component: {fileID: 8775165853940975654}
+  - component: {fileID: 1371603702140258585}
+  m_Layer: 0
+  m_Name: TowerInteractor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7458141439066417902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792237166799535203}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5891066069922232263}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8775165853940975654
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792237166799535203}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7, y: 1.7, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1371603702140258585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792237166799535203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3377d8a5032834b66b3bf63dc3b4cc80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tower: {fileID: 547411871073473834}
+  placementController: {fileID: 0}
 --- !u!1 &5891066069922460699
 GameObject:
   m_ObjectHideFlags: 0
@@ -4654,7 +4722,7 @@ GameObject:
   - component: {fileID: 5891066069922262425}
   - component: {fileID: 5891066069923575527}
   - component: {fileID: 5891066069924690845}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Woods
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4737,7 +4805,7 @@ GameObject:
   - component: {fileID: 5891066069922287503}
   - component: {fileID: 5891066069923569649}
   - component: {fileID: 5891066069924647611}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4820,7 +4888,7 @@ GameObject:
   - component: {fileID: 5891066069922300929}
   - component: {fileID: 5891066069923534951}
   - component: {fileID: 5891066069924648333}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enterance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4903,7 +4971,7 @@ GameObject:
   - component: {fileID: 5891066069922254387}
   - component: {fileID: 5891066069923576787}
   - component: {fileID: 5891066069924705651}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4986,7 +5054,7 @@ GameObject:
   - component: {fileID: 5891066069922238345}
   - component: {fileID: 5891066069923650523}
   - component: {fileID: 5891066069924202799}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Banners
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5069,7 +5137,7 @@ GameObject:
   - component: {fileID: 5891066069922269497}
   - component: {fileID: 5891066069923652763}
   - component: {fileID: 5891066069924242071}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Crystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5153,7 +5221,7 @@ GameObject:
   - component: {fileID: 5891066069929789519}
   - component: {fileID: 547411871073473834}
   - component: {fileID: 6230744583246674745}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: IceTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5169,7 +5237,7 @@ Transform:
   m_GameObject: {fileID: 5891066069922524749}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.112335, y: 0.020004272, z: 50.737865}
+  m_LocalPosition: {x: 19.179232, y: 0, z: 12.568739}
   m_LocalScale: {x: 17, y: 17, z: 17}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5181,6 +5249,7 @@ Transform:
   - {fileID: 5891066069922262425}
   - {fileID: 5305739381251612638}
   - {fileID: 107540711077034587}
+  - {fileID: 7458141439066417902}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5891066069929789519
@@ -5220,6 +5289,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 6551323582924673045, guid: 8acfd744de6674be0bfe0559bb5805af, type: 3}
   shootingPoint: {fileID: 5305739381251612638}
   shootingCoolDown: 2
+  damage: 10
+  nextTowerPrefab: {fileID: 9049254601076243856, guid: af7468923ef4e4158bffdf1bbc841b21, type: 3}
   PoofEffect: {fileID: 141433446842962269, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
 --- !u!135 &6230744583246674745
 SphereCollider:
@@ -5240,5 +5311,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1
-  m_Center: {x: 0, y: 0.21, z: 0}
+  m_Radius: 1.8
+  m_Center: {x: 0, y: 0.6, z: 0}

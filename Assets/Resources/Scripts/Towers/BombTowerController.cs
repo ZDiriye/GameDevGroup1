@@ -25,7 +25,7 @@ public class BombTowerController : BaseTowerController
             GameObject projectile = Instantiate(projectilePrefab);
             projectile.transform.position = shootingPoint.position;
             projectile.transform.rotation = shootingPoint.rotation;
-            projectile.GetComponent<Projectiles>().Initialise(target.position, 1.5f);
+            projectile.GetComponent<Projectiles>().Initialise(target.position, 1.5f, damage);
 
             Instantiate(PoofEffect, shootingPoint.position, Quaternion.identity);
             yield return new WaitForSeconds(shootingCoolDown);

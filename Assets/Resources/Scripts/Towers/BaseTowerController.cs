@@ -13,6 +13,9 @@ public class BaseTowerController : MonoBehaviour
     protected Collider targetCollider;
     protected float cooldownTimer = 0f;
     protected float densityRadius = 15f;
+    public int damage;
+    public BaseTowerController nextTowerPrefab;
+
 
     /// Coroutine for shooting at the target. To be implemented by derived classes.
     public virtual IEnumerator ShootTarget(Transform target)
@@ -159,5 +162,15 @@ public class BaseTowerController : MonoBehaviour
         shooting = false;
         targetCollider = null;
         Debug.Log($"{gameObject.name}: Stopped shooting");
+    }
+
+    public void UpgradeDamage()
+    {
+        damage += 1;
+    }
+
+    public void UpgradeSpeed()
+    {
+        shootingCoolDown -= 0.15f;
     }
 }

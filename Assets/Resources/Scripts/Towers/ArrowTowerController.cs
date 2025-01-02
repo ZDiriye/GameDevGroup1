@@ -24,7 +24,7 @@ public class ArrowTowerController : BaseTowerController
             GameObject projectile = Instantiate(projectilePrefab);
             projectile.transform.position = shootingPoint.position;
             projectile.transform.rotation = shootingPoint.rotation;
-            projectile.GetComponent<Projectiles>().Initialise(target, 1.5f);
+            projectile.GetComponent<Projectiles>().Initialise(target, 1.5f, damage);
 
             yield return new WaitForSeconds(shootingCoolDown);
             cooldownTimer = shootingCoolDown;

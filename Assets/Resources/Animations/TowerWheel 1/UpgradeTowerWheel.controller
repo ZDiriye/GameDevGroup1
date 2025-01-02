@@ -87,24 +87,24 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 7129972686038663809}
-    m_Position: {x: 730, y: 500, z: 0}
+    m_Position: {x: -780, y: -510, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3600689134770399115}
-    m_Position: {x: 700, y: 440, z: 0}
+    m_Position: {x: -810, y: -570, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2148409883666244811}
-    m_Position: {x: 760, y: 560, z: 0}
+    m_Position: {x: -750, y: -450, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4448049449311893961}
-    m_Position: {x: 690, y: 360, z: 0}
+    m_Position: {x: -820, y: -650, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 540, y: 440, z: 0}
-  m_EntryPosition: {x: 710, y: 270, z: 0}
-  m_ExitPosition: {x: 800, y: 630, z: 0}
+  m_AnyStatePosition: {x: -970, y: -570, z: 0}
+  m_EntryPosition: {x: -800, y: -740, z: 0}
+  m_ExitPosition: {x: -710, y: -380, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -4448049449311893961}
 --- !u!91 &9100000
@@ -113,15 +113,15 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TowerWheel
+  m_Name: UpgradeTowerWheel
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: OpenTowerWheel
+  - m_Name: OpenUpgradeTowerWheel
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -144,7 +144,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: OpenTowerWheel
+    m_ConditionEvent: OpenUpgradeTowerWheel
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2148409883666244811}
@@ -169,7 +169,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: OpenTowerWheel
+    m_ConditionEvent: OpenUpgradeTowerWheel
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3600689134770399115}
