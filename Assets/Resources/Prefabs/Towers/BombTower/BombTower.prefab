@@ -4735,7 +4735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0fed33253e794e2c9fa3d87e0cf6373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 3338797074787679770, guid: 2a7e44a37e974418da5cce627607c44e, type: 3}
+  projectilePrefab: {fileID: 3338797074787679770, guid: a8097867354c847d987f57d4ea80bc9b, type: 3}
   shootingPoint: {fileID: 7000461871736115626}
   shootingCoolDown: 5
   damage: 25

@@ -243,10 +243,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ad5f4f831acb47e8b6fe450b3665e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 6551323582924673045, guid: 8acfd744de6674be0bfe0559bb5805af, type: 3}
+  projectilePrefab: {fileID: 6551323582924673045, guid: af1935b69c79847b99238a7180433a87, type: 3}
   shootingPoint: {fileID: 6702898032126582321}
   shootingCoolDown: 2
   damage: 10
+  nextTowerPrefab: {fileID: 0}
   PoofEffect: {fileID: 141433446842962269, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
 --- !u!135 &1290002119795343136
 SphereCollider:
@@ -585,6 +586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tower: {fileID: 9059963985478050834}
+  placementController: {fileID: 0}
 --- !u!1 &6352432380988259908
 GameObject:
   m_ObjectHideFlags: 0

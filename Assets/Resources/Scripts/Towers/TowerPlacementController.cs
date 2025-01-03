@@ -9,6 +9,15 @@ public class TowerPlacementController : MonoBehaviour
     public GameObject hammer;
     private static TowerPlacementController activeHammer;
     private CursorManager cursorManager;
+    public Material normalMaterial;
+    public Material decalMaterial;
+    public Renderer targetRenderer;
+
+    void Start()
+    {
+        if (targetRenderer == null)
+            targetRenderer = GetComponentInChildren<Renderer>();
+    }
 
     private void OnMouseEnter()
     {
@@ -31,6 +40,7 @@ public class TowerPlacementController : MonoBehaviour
 
     public void TowerPlaced(BaseTowerController tower)
     {
+        RemoveDecalMaterial();
         this.tower = tower;
         placed = true;
 
@@ -49,7 +59,24 @@ public class TowerPlacementController : MonoBehaviour
 
     public void TowerRemoved()
     {
+        ApplyDecalMaterial();
         tower = null;
         placed = false;
+    }
+
+    public void ApplyDecalMaterial()
+    {
+       if (targetRenderer != null && decalMaterial != null)
+        {
+            targetRenderer.material = decalMaterial;
+        }
+    }
+
+    public void RemoveDecalMaterial()
+    {
+        if (targetRenderer != null && normalMaterial != null)
+        {
+            targetRenderer.material = normalMaterial;
+        }
     }
 }
