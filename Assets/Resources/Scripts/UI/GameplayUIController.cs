@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine.EventSystems;
 
 public class GameplayUIController : MonoBehaviour
 {
     public GameObject arrowTowerPrefab, iceTowerPrefab, bombTowerPrefab;
-    public Button arrowTowerButton, iceTowerButton, bombTowerButton, upgradeButton;
+    public Button arrowTowerButton, iceTowerButton, bombTowerButton, upgradeButton, sellButton;
     public static GameplayUIController instance;
     public TowerPlacementController pointController, activeHammer;
     public TowerInteractionController towerController, activeTower;
@@ -86,7 +87,7 @@ public class GameplayUIController : MonoBehaviour
             towerWheelController.Close();
             Debug.Log($"Menu closed for hammer: {activeHammer.gameObject.name}");
         }
-
+        
         towerWheelController.SetPositionAndOpen(position);
         activeHammer = hammer;
         Debug.Log($"Menu opened for hammer: {hammer.gameObject.name}");
@@ -114,6 +115,8 @@ public class GameplayUIController : MonoBehaviour
         }
 
         UpgradetowerWheelController.SetPositionAndOpenUpgrade(position);
+        upgradeButton.gameObject.SetActive(tower.tower.nextTowerPrefab != null);
+
         activeTower = tower;
     }
 
@@ -138,9 +141,8 @@ public class GameplayUIController : MonoBehaviour
             return;
         }
 
-        isPlacingTower = true;
+        // Identify which prefab to use
         GameObject towerPrefab = null;
-
         switch (towerID)
         {
             case 1:
@@ -157,15 +159,34 @@ public class GameplayUIController : MonoBehaviour
                 return;
         }
 
-        if (activeHammer != null && towerPrefab != null)
+        // Get the BaseTowerController to read the cost
+        BaseTowerController towerControllerScript = towerPrefab.GetComponent<BaseTowerController>();
+        if (towerControllerScript == null)
+        {
+            Debug.LogWarning("No BaseTowerController found on the selected tower prefab.");
+            return;
+        }
+
+        // Check currency first
+        int towerPlacementCost = towerControllerScript.placementCost;
+        if (!EconomyManager.Instance.SpendCurrency(towerPlacementCost))
+        {
+            Debug.LogWarning("Not enough currency to place this tower.");
+            return;
+        }
+
+        EconomyManager.Instance.SpendCurrency(towerPlacementCost);
+        isPlacingTower = true;
+
+        // Place the tower
+        if (activeHammer != null)
         {
             GameObject tower = Instantiate(towerPrefab);
             Vector3 adjustedPosition = pointController.transform.position;
-            adjustedPosition.y -= 5.0f;  // Ensure this value is correct
+            adjustedPosition.y -= 5.0f;
             tower.transform.position = adjustedPosition;
 
             Debug.Log($"Tower placed: {tower.name} at {tower.transform.position}");
-
             pointController.TowerPlaced(tower.GetComponent<BaseTowerController>());
         }
         else
@@ -173,14 +194,11 @@ public class GameplayUIController : MonoBehaviour
             Debug.Log("Active hammer not set or prefab not found.");
         }
 
-        Debug.Log("Tower ID: " + towerID);
-        Debug.Log("Active Hammer: " + (activeHammer != null).ToString());
-        Debug.Log("Tower Prefab: " + (towerPrefab != null).ToString());
-        Debug.Log("Point Controller Position: " + pointController.transform.position);
-
-
+        // Reset flags
         isPlacingTower = false;
+        Debug.Log("Tower placement complete.");
     }
+
 
     public void UpgradeTower(BaseTowerController currentTower, TowerPlacementController placementController)
     {
@@ -191,6 +209,14 @@ public class GameplayUIController : MonoBehaviour
             return;
         }
 
+        if (!EconomyManager.Instance.SpendCurrency(currentTower.nextTowerPrefab.upgradeCost))
+        {
+            Debug.LogWarning("Not enough currency to upgrade the tower.");
+            return;
+        }
+
+        EconomyManager.Instance.SpendCurrency(currentTower.nextTowerPrefab.upgradeCost);
+
         Debug.Log("Upgraded Tower");
         Vector3 oldPosition = currentTower.transform.position;
 
@@ -200,8 +226,28 @@ public class GameplayUIController : MonoBehaviour
 
     }
 
+    public void SellActiveTower()
+    {
+        if (activeTower != null && activeTower.tower != null && activeTower.placementController != null)
+        {
+            Debug.Log($"Selling Tower: {activeTower.tower.gameObject.name}");
 
+            EconomyManager.Instance.AddCurrency(activeTower.tower.sellPrice);
 
+            // Notify the placement controller that the tower has been removed
+            activeTower.placementController.TowerRemoved();
+            Destroy(activeTower.tower.gameObject);
+            activeTower = null;
+
+            Debug.Log("Tower sold successfully.");
+        }
+        else
+        {
+            Debug.LogWarning("No active tower to sell.");
+        }
+    }
+
+    
     private void SetUpButtons()
     {
         Debug.Log("Setting up buttons...");
@@ -234,6 +280,13 @@ public class GameplayUIController : MonoBehaviour
             {
                 UpgradeTower(activeTower.tower, activeTower.placementController);
             }
+            CloseUpgradeActiveMenu();
+        });
+
+        sellButton.onClick.AddListener(() =>
+        {
+            Debug.Log("Sell Button Clicked");
+            SellActiveTower();
             CloseUpgradeActiveMenu();
         });
     }

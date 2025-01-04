@@ -5,12 +5,7 @@ using UnityEngine;
 public class IceTowerController : BaseTowerController
 {
     [SerializeField] private GameObject PoofEffect; 
-    protected virtual void Awake()
-    {
-        shootingCoolDown = 2f;
-        Debug.Log($"{gameObject.name}: Awake - shootingCoolDown set to {shootingCoolDown}");
-    }
-
+    
      /// Selects the nearest enemy as the target.
     protected override Collider SelectTarget()
     {
@@ -26,7 +21,7 @@ public class IceTowerController : BaseTowerController
             GameObject projectile = Instantiate(projectilePrefab);
             projectile.transform.position = shootingPoint.position;
             projectile.transform.rotation = shootingPoint.rotation;
-            projectile.GetComponent<Projectiles>().Initialise(target.position, 1.5f, damage);
+            projectile.GetComponent<Projectiles>().Initialise(target.position, speed, damage, aoe, percentage);
 
             Instantiate(PoofEffect, shootingPoint.position, Quaternion.identity);
             yield return new WaitForSeconds(shootingCoolDown);

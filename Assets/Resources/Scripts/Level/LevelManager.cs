@@ -52,6 +52,7 @@ public class LevelManager : MonoBehaviour
                 bool isStrong = Random.value < currentWave.strongEnemyChance;
                 bool isFast = Random.value < currentWave.fastEnemyChance;
                 EnemyManager.instance.SpawnEnemy(enemyIndex, pathIndex, isStrong, isFast);
+                
                 yield return new WaitForSeconds(Random.Range(currentWave.spawnIntervalMin, currentWave.spawnIntervalMax));
             }
 

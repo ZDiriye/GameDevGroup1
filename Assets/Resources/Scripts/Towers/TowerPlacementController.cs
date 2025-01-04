@@ -62,6 +62,11 @@ public class TowerPlacementController : MonoBehaviour
         ApplyDecalMaterial();
         tower = null;
         placed = false;
+
+        if (hammer != null)
+        {
+            hammer.SetActive(true);
+        }
     }
 
     public void ApplyDecalMaterial()

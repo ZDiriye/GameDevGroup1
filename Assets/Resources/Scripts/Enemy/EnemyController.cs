@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour
     private Coroutine slowed;
     private bool isDead = false;
     private bool hasReportedDeath = false;
+    public int killReward;
  
 
     // Sets up enemy's navigation agent and starts the movement through waypoints
@@ -32,13 +33,15 @@ public class EnemyController : MonoBehaviour
         
         if (fast && !strong)
         {
+            killReward =20;
             fastPace();
         }
 
         if (strong)
         {
             maxHealth *= 2;
-            transform.localScale *= 1.4f;
+            killReward =25;
+            transform.localScale *= 1.2f;
             slowPace();
             
         }
@@ -94,11 +97,13 @@ public class EnemyController : MonoBehaviour
         Attack();
     }
 
-    public void Slow(float duration)
+    public void Slow(float duration, float percentage)
     {
         if (remainingSlowTime <= 0) 
         {
-            slowPace();
+            navMeshAgent.acceleration *= percentage;
+            navMeshAgent.speed *= percentage;
+            navMeshAgent.angularSpeed *= percentage;
         }
         remainingSlowTime = duration;
     }
@@ -124,8 +129,7 @@ public class EnemyController : MonoBehaviour
             StartCoroutine(ResetHitAnimation());
         }
         else
-        {
-            // If health is zero or less, the enemy dies
+        {   // If health is zero or less, the enemy dies
             Die();
         }
     }   
@@ -157,6 +161,7 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator WaitForDeathAnimation()
     {
+        EconomyManager.Instance.AddCurrency(killReward);
         Debug.Log("Waiting for death animation to complete.");
         yield return new WaitUntil(() =>
             animator.GetCurrentAnimatorStateInfo(0).IsName("Die") &&

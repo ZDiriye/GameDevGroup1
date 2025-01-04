@@ -3,11 +3,6 @@ using UnityEngine;
 
 public class ArrowTowerController : BaseTowerController
 {
-    protected virtual void Awake()
-    {
-        shootingCoolDown = 1f;
-        Debug.Log($"{gameObject.name}: Awake - shootingCoolDown set to {shootingCoolDown}");
-    }
 
     /// Selects the nearest enemy as the target.
     protected override Collider SelectTarget()
@@ -24,7 +19,7 @@ public class ArrowTowerController : BaseTowerController
             GameObject projectile = Instantiate(projectilePrefab);
             projectile.transform.position = shootingPoint.position;
             projectile.transform.rotation = shootingPoint.rotation;
-            projectile.GetComponent<Projectiles>().Initialise(target, 1.5f, damage);
+            projectile.GetComponent<Projectiles>().Initialise(target, speed, damage);
 
             yield return new WaitForSeconds(shootingCoolDown);
             cooldownTimer = shootingCoolDown;

@@ -5288,9 +5288,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 6551323582924673045, guid: 19f2753232e88445199b9b294b133962, type: 3}
   shootingPoint: {fileID: 6126499389042383623}
-  shootingCoolDown: 2
-  damage: 10
+  shootingCoolDown: 4
+  damage: 20
+  aoe: 15
+  speed: 1.5
   nextTowerPrefab: {fileID: 9059963985478050834, guid: 8432b932105994dbd8b0d62a3e569722, type: 3}
+  placementCost: 0
+  towerName: 
+  upgradeCost: 40
+  sellPrice: 70
+  description: A breezy tower slowing enemies in their steps
+  percentage: 0.5
   PoofEffect: {fileID: 141433446842962269, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
 --- !u!135 &6517739243900865396
 SphereCollider:

@@ -4737,9 +4737,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 903981525515892349, guid: 4f90c9c76b4454724bdb01fc151cf29c, type: 3}
   shootingPoint: {fileID: 9216583814084381792}
-  shootingCoolDown: 2
-  damage: 12
+  shootingCoolDown: 1.5
+  damage: 25
+  aoe: 0
+  speed: 1.5
   nextTowerPrefab: {fileID: 6538532360264997480, guid: dd288d308e5cf45d4a9fc2e823a01ed8, type: 3}
+  placementCost: 0
+  towerName: 
+  upgradeCost: 40
+  sellPrice: 63
+  description: 
+  percentage: 0
 --- !u!135 &3513286489316399687
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4828,6 +4836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tower: {fileID: 5006394269399133775}
+  placementController: {fileID: 0}
 --- !u!1 &4231311041264732487
 GameObject:
   m_ObjectHideFlags: 0

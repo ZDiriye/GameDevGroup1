@@ -11,11 +11,19 @@ public class BaseTowerController : MonoBehaviour
     protected bool shooting;
     protected List<Collider> enemiesInRange = new List<Collider>();
     protected Collider targetCollider;
-    protected float cooldownTimer = 0f;
+    protected float cooldownTimer;
     protected float densityRadius = 15f;
     public int damage;
+    public int aoe;
+    public float speed;
     public BaseTowerController nextTowerPrefab;
-
+    public int placementCost;
+    public string towerName;
+    public int upgradeCost; 
+    public int sellPrice;
+    public string description;
+    public float percentage;
+    
 
     /// Coroutine for shooting at the target. To be implemented by derived classes.
     public virtual IEnumerator ShootTarget(Transform target)
@@ -46,6 +54,7 @@ public class BaseTowerController : MonoBehaviour
         {
             StopShooting();
         }
+        Debug.Log($"Currently tracking {enemiesInRange.Count} enemies.");
     }
 
     /// Selects the target based on specific tower logic. Override in derived classes.
@@ -133,6 +142,10 @@ public class BaseTowerController : MonoBehaviour
             enemiesInRange.Add(other);
             Debug.Log($"{gameObject.name}: Enemy entered range - {other.name}");
         }
+        else
+        {
+            Debug.Log($"{gameObject.name}: Enemy already in range - {other.name}");
+        }
     }
 
     /// Handles enemies exiting the tower's range.
@@ -162,15 +175,5 @@ public class BaseTowerController : MonoBehaviour
         shooting = false;
         targetCollider = null;
         Debug.Log($"{gameObject.name}: Stopped shooting");
-    }
-
-    public void UpgradeDamage()
-    {
-        damage += 1;
-    }
-
-    public void UpgradeSpeed()
-    {
-        shootingCoolDown -= 0.15f;
     }
 }

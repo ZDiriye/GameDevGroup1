@@ -5288,9 +5288,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 6551323582924673045, guid: 8acfd744de6674be0bfe0559bb5805af, type: 3}
   shootingPoint: {fileID: 5305739381251612638}
-  shootingCoolDown: 2
-  damage: 10
+  shootingCoolDown: 5.5
+  damage: 15
+  aoe: 15
+  speed: 1.5
   nextTowerPrefab: {fileID: 9049254601076243856, guid: af7468923ef4e4158bffdf1bbc841b21, type: 3}
+  placementCost: 60
+  upgradeCost: 0
+  sellPrice: 42
+  percentage: 0.6
   PoofEffect: {fileID: 141433446842962269, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
 --- !u!135 &6230744583246674745
 SphereCollider:

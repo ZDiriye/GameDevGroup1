@@ -14,14 +14,22 @@ public class Projectiles : MonoBehaviour
     [SerializeField] private float distanceThreshold;
     [SerializeField] private GameObject explosionEffect; 
     private int damage;
+    private int aoe;
+    private float percentage;
 
     // Called by the tower. This is how we know the final position we want to reach.
-    public void Initialise(Vector3 target, float speedTravel, int damage) //damage
+    public void Initialise(Vector3 target, float speedTravel, int damage, int aoe, float percentage) //damage
     {
         this.targetPosition = target;
         this.SpeedTravel = speedTravel;
         this.StartTime = Time.time;
         this.damage = damage;
+        this.aoe = aoe;
+
+        if (projectileType == ProjectileType.IceBall)
+        {
+            this.percentage = percentage;
+        }
         initialise = true;
     }
 
@@ -103,7 +111,7 @@ public class Projectiles : MonoBehaviour
 
     private void Explode()
     {
-        AOE(15);
+        AOE(aoe);
         Instantiate(explosionEffect, transform.position, Quaternion.identity);
     }
 
@@ -130,7 +138,7 @@ public class Projectiles : MonoBehaviour
                 else if (projectileType == ProjectileType.IceBall)
                 {
                     hit.GetComponent<EnemyController>().TakeDamage(damage); //damage
-                    hit.GetComponent<EnemyController>().Slow(5);
+                    hit.GetComponent<EnemyController>().Slow(5, percentage);
                 }
             }
         }

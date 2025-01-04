@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 586293632787620002}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 32, y: -0, z: 32}
+  m_LocalPosition: {x: 35.3, y: 0.020004272, z: -31.7}
   m_LocalScale: {x: 30, y: 30, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -125,9 +125,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 3338797074787679770, guid: 2a7e44a37e974418da5cce627607c44e, type: 3}
   shootingPoint: {fileID: 1396580812229637431}
-  shootingCoolDown: 5
+  shootingCoolDown: 2.5
   damage: 25
+  aoe: 15
+  speed: 1.3
   nextTowerPrefab: {fileID: 5749323624670459142, guid: 05a265f38fbd94a86b7c6f74897cea9b, type: 3}
+  placementCost: 55
+  towerName: 
+  upgradeCost: 0
+  sellPrice: 39
+  description: A mighty tower with area of effect damage
+  percentage: 0
   PoofEffect: {fileID: 141433446842962269, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
 --- !u!135 &7260842692781422939
 SphereCollider:
@@ -148,7 +156,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.2
+  m_Radius: 0.9
   m_Center: {x: -0.00000004470348, y: 0.27675226, z: -0.00000001490116}
 --- !u!1 &936251525041693393
 GameObject:

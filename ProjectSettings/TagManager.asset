@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Hammer
   - TowerWheel
+  - CostText
   layers:
   - Default
   - TransparentFX

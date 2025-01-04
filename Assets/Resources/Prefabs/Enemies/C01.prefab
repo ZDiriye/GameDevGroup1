@@ -959,10 +959,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 445606763475725816}
-  maxHealth: 100
-  health: 100
+  maxHealth: 200
+  health: 200
   healthbar: {fileID: 2519327266007427475}
   remainingSlowTime: 0
+  killReward: 15
 --- !u!195 &6936693128343917046
 NavMeshAgent:
   m_ObjectHideFlags: 0
