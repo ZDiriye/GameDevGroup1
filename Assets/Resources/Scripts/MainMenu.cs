@@ -9,11 +9,4 @@ public class MainMenu : MonoBehaviour
         Debug.Log("PlayGame() function is called by: " + gameObject.name);
         SceneManager.LoadScene("Level1");
     }
-
-    // Function to quit the game
-    public void ExitGame()
-    {
-        Debug.Log("ExitGame() function is called by: " + gameObject.name);
-        Application.Quit();
-    }
 }
