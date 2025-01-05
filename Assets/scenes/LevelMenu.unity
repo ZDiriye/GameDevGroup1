@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311912, g: 0.3807395, b: 0.35872674, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731689, g: 0.13414706, b: 0.1210784, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -670,6 +670,7 @@ GameObject:
   - component: {fileID: 976907783}
   - component: {fileID: 976907782}
   - component: {fileID: 976907785}
+  - component: {fileID: 976907786}
   m_Layer: 5
   m_Name: Level 3 Button
   m_TagString: Untagged
@@ -740,7 +741,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 976907783}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 976907786}
+        m_TargetAssemblyTypeName: LevelSelector, Assembly-CSharp
+        m_MethodName: OpenScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &976907783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,6 +837,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &976907786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976907780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c1dfe380d274f7bb361230b49bbd35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: Level2
 --- !u!1 &1059800362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1320,7 +1346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c1dfe380d274f7bb361230b49bbd35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: 
+  sceneName: Level1
 --- !u!114 &1400315715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1559,7 +1585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c1dfe380d274f7bb361230b49bbd35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Level1
+  sceneName: Level0
 --- !u!114 &1595910855
 MonoBehaviour:
   m_ObjectHideFlags: 0
