@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
     public TimeSliderPositionController sliderController;
     private bool proceedToNextWave = false;
     private CursorManager cursorManager;
+    public AudioSource countdownSound;
 
     private void OnMouseEnter()
     {
@@ -107,6 +108,14 @@ public class LevelManager : MonoBehaviour
         {
             sliderController.MoveSliderTo(spawnPoint);
         }
+        StartCoroutine(PlayCountdownSound());
+    }
+
+    private IEnumerator PlayCountdownSound()
+    {
+        countdownSound.Play();
+        yield return new WaitForSeconds(20); 
+        countdownSound.Stop(); 
     }
 
     private IEnumerator WaitForFirstWaveStart()

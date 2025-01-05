@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class EconomyManager : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class EconomyManager : MonoBehaviour
 
     public int CurrentCurrency { get; private set; } = 300; // Starting currency
     public Text currencyText;
+    public TextMeshProUGUI warningText; 
+    public GameObject backgroundImage;
 
     private void Awake()
     {
@@ -18,6 +21,7 @@ public class EconomyManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        HideWarningMessage();
     }
 
     private void Start()
@@ -33,8 +37,32 @@ public class EconomyManager : MonoBehaviour
             UpdateCurrencyUI();
             return true;
         }
-        Debug.LogWarning("Not enough currency!");
-        return false;
+        else
+        {
+            Debug.LogWarning("Not enough currency!");
+            ShowWarningMessage("Not enough currency!");
+            return false;
+        }
+    }
+
+    private void ShowWarningMessage(string message)
+    {
+        if (warningText != null)
+        {
+            warningText.text = message;
+            warningText.gameObject.SetActive(true);
+            backgroundImage.SetActive(true);
+            Invoke("HideWarningMessage", 2.0f);  // Hide the message after 3 seconds
+        }
+    }
+
+    private void HideWarningMessage()
+    {
+        if (warningText != null)
+        {
+            warningText.gameObject.SetActive(false);
+            backgroundImage.SetActive(false);
+        }
     }
 
     public void AddCurrency(int amount)
@@ -48,6 +76,7 @@ public class EconomyManager : MonoBehaviour
         if (currencyText != null)
         {
             currencyText.text = CurrentCurrency.ToString();
+            backgroundImage.SetActive(false);
         }
     }
 }

@@ -9,7 +9,7 @@ public class Projectiles : MonoBehaviour
     private bool initialise = false;
     private float StartTime;
     private Vector3 startPos, targetPosition;
-
+    public AudioSource shootSound;
     [SerializeField] private float arcHeight;       
     [SerializeField] private float distanceThreshold;
     [SerializeField] private GameObject explosionEffect; 
@@ -65,7 +65,6 @@ public class Projectiles : MonoBehaviour
                 Destroy(gameObject);
                 return;
             }
-
             Vector3 direction = Target.position - transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 1000000);

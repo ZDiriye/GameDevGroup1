@@ -117,9 +117,23 @@ public class GameplayUIController : MonoBehaviour
         UpgradetowerWheelController.SetPositionAndOpenUpgrade(position);
         upgradeButton.gameObject.SetActive(tower.tower.nextTowerPrefab != null);
 
+        if (tower.tower.nextTowerPrefab != null)
+        {
+            // Find the TowerWheelButtonController attached to the upgradeButton
+            TowerWheelButtonController upgradeButtonController = upgradeButton.GetComponent<TowerWheelButtonController>();
+            if (upgradeButtonController != null)
+            {
+                // Assign the nextTowerPrefab dynamically
+                upgradeButtonController.SetTowerPrefab(tower.tower.nextTowerPrefab.gameObject, tower.tower.gameObject);
+            }
+            else
+            {
+                Debug.LogWarning("Upgrade Button does not have a TowerWheelButtonController component.");
+            }
+        }
+
         activeTower = tower;
     }
-
 
     public void CloseUpgradeActiveMenu()
     {

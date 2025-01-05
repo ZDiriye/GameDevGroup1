@@ -5294,8 +5294,10 @@ MonoBehaviour:
   speed: 1.5
   nextTowerPrefab: {fileID: 9049254601076243856, guid: af7468923ef4e4158bffdf1bbc841b21, type: 3}
   placementCost: 60
+  towerName: 
   upgradeCost: 0
   sellPrice: 42
+  description: An icey tower slowing enemies in their steps
   percentage: 0.6
   PoofEffect: {fileID: 141433446842962269, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
 --- !u!135 &6230744583246674745

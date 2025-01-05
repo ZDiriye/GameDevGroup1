@@ -200,8 +200,10 @@ MonoBehaviour:
   speed: 1.5
   nextTowerPrefab: {fileID: 0}
   placementCost: 0
+  towerName: 
   upgradeCost: 150
   sellPrice: 120
+  description: A mighty tower with area of effect damage
   percentage: 0
   PoofEffect: {fileID: 141433446842962269, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
 --- !u!135 &9085590861813050046

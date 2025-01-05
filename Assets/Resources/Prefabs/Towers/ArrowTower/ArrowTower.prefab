@@ -4746,7 +4746,7 @@ MonoBehaviour:
   towerName: 
   upgradeCost: 40
   sellPrice: 63
-  description: 
+  description: A single target fast shooting tower
   percentage: 0
 --- !u!135 &3513286489316399687
 SphereCollider:

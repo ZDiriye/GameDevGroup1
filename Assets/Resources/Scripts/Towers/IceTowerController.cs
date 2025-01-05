@@ -22,7 +22,6 @@ public class IceTowerController : BaseTowerController
             projectile.transform.position = shootingPoint.position;
             projectile.transform.rotation = shootingPoint.rotation;
             projectile.GetComponent<Projectiles>().Initialise(target.position, speed, damage, aoe, percentage);
-
             Instantiate(PoofEffect, shootingPoint.position, Quaternion.identity);
             yield return new WaitForSeconds(shootingCoolDown);
             cooldownTimer = shootingCoolDown;

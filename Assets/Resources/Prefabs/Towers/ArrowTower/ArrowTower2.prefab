@@ -4842,8 +4842,10 @@ MonoBehaviour:
   speed: 1.5
   nextTowerPrefab: {fileID: 0}
   placementCost: 0
+  towerName: 
   upgradeCost: 60
   sellPrice: 77
+  description: A single target fast shooting tower
   percentage: 0
 --- !u!135 &61516166861542493
 SphereCollider:
