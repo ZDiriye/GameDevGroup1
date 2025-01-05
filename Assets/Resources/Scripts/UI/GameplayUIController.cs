@@ -189,7 +189,6 @@ public class GameplayUIController : MonoBehaviour
             return;
         }
 
-        EconomyManager.Instance.SpendCurrency(towerPlacementCost);
         isPlacingTower = true;
 
         // Place the tower
