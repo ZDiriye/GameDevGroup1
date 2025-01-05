@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.57623386, g: 0.6421429, b: 0.7315084, a: 1}
+  m_IndirectSpecularColor: {r: 0.29624602, g: 0.37907368, b: 0.510505, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -17636,7 +17636,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 992a9da8b3a484990907fd2bdb5b7e79, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: f929d15596fc2456bbb92a3320bbd6fd, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &1237166939
 BoxCollider:
@@ -29566,7 +29566,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 4b5809f1e40ba453f974021f2c59fd91, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: ed0595a7ba5fc48058378a3f988a1795, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &2099352490
 GameObject:
@@ -30471,7 +30471,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 38735a3dd313c47118098f8bd9a8955c, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 9c137ad7a78a148919957be6b097cd77, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
