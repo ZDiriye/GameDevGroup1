@@ -17605,7 +17605,7 @@ MonoBehaviour:
   buildingRenderer: {fileID: 1237166940}
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.25
-  health: 1
+  health: 500
   UserHealthText: {fileID: 2036637794}
 --- !u!114 &1237166938
 MonoBehaviour:
