@@ -114,7 +114,7 @@ public class LevelManager : MonoBehaviour
     private IEnumerator PlayCountdownSound()
     {
         countdownSound.Play();
-        yield return new WaitForSeconds(20); 
+        yield return new WaitForSeconds(20);
         countdownSound.Stop(); 
     }
 
