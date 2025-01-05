@@ -14,6 +14,8 @@ public class LevelManager : MonoBehaviour
     private CursorManager cursorManager;
     public AudioSource countdownSound;
 
+     public static string CurrentLevelName; // Store the current level name
+
     private void OnMouseEnter()
     {
         CursorManager.Instance.SetPointingCursor();
@@ -36,6 +38,9 @@ public class LevelManager : MonoBehaviour
         sliderController.OnSliderClicked += HandleSliderClicked;
         ShowSliders();
         StartCoroutine(WaitForFirstWaveStart()); 
+
+        // Set the current level name whenever the level starts
+        CurrentLevelName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
     }
 
 

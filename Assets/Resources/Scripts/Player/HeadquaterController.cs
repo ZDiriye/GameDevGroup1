@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -37,7 +38,7 @@ public class HeadquarterController : MonoBehaviour
     // when the user looses.
     public void Lose()
     {
-
+        SceneManager.LoadScene("GameOver");
     }
 
     public void Heal(float amount)
