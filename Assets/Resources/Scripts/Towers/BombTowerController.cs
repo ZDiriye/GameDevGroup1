@@ -1,18 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BombTowerController : BaseTowerController
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameObject PoofEffect; 
+
+     /// Selects the nearest enemy as the target.
+    protected override Collider SelectTarget()
     {
-        
+        return CalculateHighestDensityCluster();
     }
 
-    // Update is called once per frame
-    void Update()
+    /// Coroutine to shoot arrows at the targeted enemy.
+    public override IEnumerator ShootTarget(Transform target)
     {
-        
+        shooting = true;
+        while (shooting)
+        {
+            GameObject projectile = Instantiate(projectilePrefab);
+            projectile.transform.position = shootingPoint.position;
+            projectile.transform.rotation = shootingPoint.rotation;
+            projectile.GetComponent<Projectiles>().Initialise(target.position, speed, damage, aoe, percentage);
+            Instantiate(PoofEffect, shootingPoint.position, Quaternion.identity);
+            yield return new WaitForSeconds(shootingCoolDown);
+            cooldownTimer = shootingCoolDown;
+        }
     }
 }
