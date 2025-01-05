@@ -7,6 +7,6 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         Debug.Log("PlayGame() function is called by: " + gameObject.name);
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("LevelMenu");
     }
 }
