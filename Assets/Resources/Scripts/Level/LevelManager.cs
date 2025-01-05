@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -99,6 +100,7 @@ public class LevelManager : MonoBehaviour
     private void OnAllWavesCompleted()
     {
         Debug.Log("All waves have been successfully completed!");
+        SceneManager.LoadScene("LevelComplete");
         // Implement any end-of-level logic here (e.g., show victory screen)
     }
 

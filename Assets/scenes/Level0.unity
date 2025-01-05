@@ -14211,26 +14211,6 @@ MonoBehaviour:
     spawnIntervalMax: 2.5
     strongEnemyChance: 0
     fastEnemyChance: 0
-  - numberOfEnemies: 8
-    spawnIntervalMin: 1.2
-    spawnIntervalMax: 2
-    strongEnemyChance: 0.102
-    fastEnemyChance: 0.25
-  - numberOfEnemies: 12
-    spawnIntervalMin: 1
-    spawnIntervalMax: 1.8
-    strongEnemyChance: 0.083
-    fastEnemyChance: 0.197
-  - numberOfEnemies: 15
-    spawnIntervalMin: 0.8
-    spawnIntervalMax: 1.6
-    strongEnemyChance: 0.191
-    fastEnemyChance: 0.325
-  - numberOfEnemies: 20
-    spawnIntervalMin: 0.6
-    spawnIntervalMax: 1.4
-    strongEnemyChance: 0.191
-    fastEnemyChance: 0.35
   currentWaveIndex: 0
   waveCounterText: {fileID: 1480666212}
   spawnPoints:
