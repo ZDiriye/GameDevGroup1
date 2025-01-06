@@ -4744,7 +4744,7 @@ MonoBehaviour:
   nextTowerPrefab: {fileID: 5517155054674473086, guid: 1d325b92052a64b699b5b293fdb5c6a1, type: 3}
   placementCost: 0
   towerName: 
-  upgradeCost: 90
+  upgradeCost: 130
   sellPrice: 54
   description: A mighty tower with area of effect damage
   percentage: 0

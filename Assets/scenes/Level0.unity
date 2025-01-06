@@ -13272,12 +13272,12 @@ MonoBehaviour:
   anim: {fileID: 1639449546}
   itemName: UPGRADE
   itemText: {fileID: 739315468}
-  costText: {fileID: 1398467503}
+  costText: {fileID: 0}
   descriptionText: {fileID: 385526048}
   damageText: {fileID: 221666346}
   cooldownText: {fileID: 885237068}
   upgradeCostText: {fileID: 1398467503}
-  sellPriceText: {fileID: 1398467503}
+  sellPriceText: {fileID: 0}
   towerPrefab: {fileID: 0}
   currentTowerPrefab: {fileID: 0}
   showCost: 1
@@ -14299,6 +14299,16 @@ MonoBehaviour:
   - numberOfEnemies: 5
     spawnIntervalMin: 1.5
     spawnIntervalMax: 2.5
+    strongEnemyChance: 0
+    fastEnemyChance: 0
+  - numberOfEnemies: 7
+    spawnIntervalMin: 1.2
+    spawnIntervalMax: 2.3
+    strongEnemyChance: 0
+    fastEnemyChance: 0
+  - numberOfEnemies: 15
+    spawnIntervalMin: 1.1
+    spawnIntervalMax: 2.3
     strongEnemyChance: 0
     fastEnemyChance: 0
   currentWaveIndex: 0

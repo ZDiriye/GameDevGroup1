@@ -130,7 +130,7 @@ MonoBehaviour:
   aoe: 15
   speed: 1.3
   nextTowerPrefab: {fileID: 5749323624670459142, guid: 05a265f38fbd94a86b7c6f74897cea9b, type: 3}
-  placementCost: 55
+  placementCost: 60
   towerName: 
   upgradeCost: 0
   sellPrice: 39
