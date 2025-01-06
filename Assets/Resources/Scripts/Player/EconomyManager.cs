@@ -11,6 +11,8 @@ public class EconomyManager : MonoBehaviour
     public TextMeshProUGUI warningText; 
     public GameObject backgroundImage;
 
+    private bool isWarningActive = false; // Tracks if a warning is currently active
+
     private void Awake()
     {
         if (Instance == null)
@@ -39,25 +41,34 @@ public class EconomyManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Not enough currency!");
-            ShowWarningMessage("Not enough currency!");
+            if (!isWarningActive) // Prevent overlapping warnings
+            {
+                Debug.LogWarning("Not enough currency!");
+                ShowWarningMessage("Not enough currency!");
+            }
             return false;
         }
     }
 
     private void ShowWarningMessage(string message)
     {
+        isWarningActive = true; // Indicate that a warning is active
+
         if (warningText != null)
         {
             warningText.text = message;
             warningText.gameObject.SetActive(true);
             backgroundImage.SetActive(true);
-            Invoke("HideWarningMessage", 2.0f);  // Hide the message after 3 seconds
+
+            // Hide the message after 2 seconds
+            Invoke("HideWarningMessage", 2.0f);
         }
     }
 
     private void HideWarningMessage()
     {
+        isWarningActive = false; // Reset warning state
+
         if (warningText != null)
         {
             warningText.gameObject.SetActive(false);
@@ -76,7 +87,6 @@ public class EconomyManager : MonoBehaviour
         if (currencyText != null)
         {
             currencyText.text = CurrentCurrency.ToString();
-            backgroundImage.SetActive(false);
         }
     }
 }
