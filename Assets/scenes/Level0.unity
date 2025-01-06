@@ -2260,8 +2260,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 0}
   hammer: {fileID: 2137311297}
-  normalMaterial: {fileID: 2100000, guid: d482502fb28504820bb63f2ee94ac641, type: 2}
-  decalMaterial: {fileID: 2100000, guid: 228e61ccf27ce41f99d58eed5def57bd, type: 2}
+  normalMaterial: {fileID: 2100000, guid: c7742acb5df2f43118bcd4298d34f71d, type: 2}
+  decalMaterial: {fileID: 2100000, guid: 215fcdf2cbfe74cadbc8ab11de189974, type: 2}
   targetRenderer: {fileID: 0}
 --- !u!4 &250060647 stripped
 Transform:
@@ -3094,8 +3094,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 0}
   hammer: {fileID: 298496045}
-  normalMaterial: {fileID: 2100000, guid: d482502fb28504820bb63f2ee94ac641, type: 2}
-  decalMaterial: {fileID: 2100000, guid: 228e61ccf27ce41f99d58eed5def57bd, type: 2}
+  normalMaterial: {fileID: 2100000, guid: c7742acb5df2f43118bcd4298d34f71d, type: 2}
+  decalMaterial: {fileID: 2100000, guid: 215fcdf2cbfe74cadbc8ab11de189974, type: 2}
   targetRenderer: {fileID: 0}
 --- !u!1 &338325094
 GameObject:
@@ -4325,8 +4325,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 0}
   hammer: {fileID: 103617140}
-  normalMaterial: {fileID: 2100000, guid: d482502fb28504820bb63f2ee94ac641, type: 2}
-  decalMaterial: {fileID: 2100000, guid: 228e61ccf27ce41f99d58eed5def57bd, type: 2}
+  normalMaterial: {fileID: 2100000, guid: c7742acb5df2f43118bcd4298d34f71d, type: 2}
+  decalMaterial: {fileID: 2100000, guid: 215fcdf2cbfe74cadbc8ab11de189974, type: 2}
   targetRenderer: {fileID: 0}
 --- !u!1 &485576028 stripped
 GameObject:
@@ -6091,8 +6091,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 0}
   hammer: {fileID: 485576028}
-  normalMaterial: {fileID: 2100000, guid: d482502fb28504820bb63f2ee94ac641, type: 2}
-  decalMaterial: {fileID: 2100000, guid: 228e61ccf27ce41f99d58eed5def57bd, type: 2}
+  normalMaterial: {fileID: 2100000, guid: c7742acb5df2f43118bcd4298d34f71d, type: 2}
+  decalMaterial: {fileID: 2100000, guid: 215fcdf2cbfe74cadbc8ab11de189974, type: 2}
   targetRenderer: {fileID: 0}
 --- !u!1 &624849603
 GameObject:
@@ -8321,8 +8321,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 0}
   hammer: {fileID: 1572094278}
-  normalMaterial: {fileID: 2100000, guid: d482502fb28504820bb63f2ee94ac641, type: 2}
-  decalMaterial: {fileID: 2100000, guid: 228e61ccf27ce41f99d58eed5def57bd, type: 2}
+  normalMaterial: {fileID: 2100000, guid: c7742acb5df2f43118bcd4298d34f71d, type: 2}
+  decalMaterial: {fileID: 2100000, guid: 215fcdf2cbfe74cadbc8ab11de189974, type: 2}
   targetRenderer: {fileID: 0}
 --- !u!1 &877247713
 GameObject:
@@ -9261,8 +9261,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 0}
   hammer: {fileID: 465790109}
-  normalMaterial: {fileID: 2100000, guid: d482502fb28504820bb63f2ee94ac641, type: 2}
-  decalMaterial: {fileID: 2100000, guid: 228e61ccf27ce41f99d58eed5def57bd, type: 2}
+  normalMaterial: {fileID: 2100000, guid: c7742acb5df2f43118bcd4298d34f71d, type: 2}
+  decalMaterial: {fileID: 2100000, guid: 215fcdf2cbfe74cadbc8ab11de189974, type: 2}
   targetRenderer: {fileID: 0}
 --- !u!4 &995916468 stripped
 Transform:
