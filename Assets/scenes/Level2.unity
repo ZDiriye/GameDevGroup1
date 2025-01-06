@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.29624602, g: 0.37907368, b: 0.510505, a: 1}
+  m_IndirectSpecularColor: {r: 0.296246, g: 0.37907362, b: 0.51050496, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -26551,7 +26551,8 @@ GameObject:
   - component: {fileID: 1241263838}
   - component: {fileID: 1241263837}
   - component: {fileID: 1241263836}
-  - component: {fileID: 1241263835}
+  - component: {fileID: 1241263840}
+  - component: {fileID: 1241263839}
   m_Layer: 5
   m_Name: SoundOn
   m_TagString: Untagged
@@ -26578,21 +26579,6 @@ RectTransform:
   m_AnchoredPosition: {x: -60, y: -41}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 1}
---- !u!114 &1241263835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241263833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebc5f09c10dfb4ad9af2d088b3a6de09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundOffImage: {fileID: 21300000, guid: 00b1d9845601441b08fd37c964128e0a, type: 3}
-  button: {fileID: 1241263836}
-  audioSource: {fileID: 0}
 --- !u!114 &1241263836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26637,9 +26623,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1241263835}
-        m_TargetAssemblyTypeName: ChangeSound, Assembly-CSharp
-        m_MethodName: ButtonClicked
+      - m_Target: {fileID: 1241263839}
+        m_TargetAssemblyTypeName: ToggleSound, Assembly-CSharp
+        m_MethodName: OnToggleSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1241263840}
+        m_TargetAssemblyTypeName: MuteButton, Assembly-CSharp
+        m_MethodName: ToggleMute
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -26687,6 +26685,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1241263833}
   m_CullTransparentMesh: 1
+--- !u!114 &1241263839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241263833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b77c38581ee4f8b8ac78a69a04c6f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundOnIcon: {fileID: 21300000, guid: 0c16417b2c7214a3da37169db444e932, type: 3}
+  soundOffIcon: {fileID: 21300000, guid: 00b1d9845601441b08fd37c964128e0a, type: 3}
+  soundOnSize: {x: 100, y: 100}
+  soundOffSize: {x: 100, y: 100}
+--- !u!114 &1241263840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241263833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ed5aff311e344370b89eee1848d7a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1241339564
 PrefabInstance:
   m_ObjectHideFlags: 0
