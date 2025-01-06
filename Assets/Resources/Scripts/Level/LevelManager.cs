@@ -109,20 +109,28 @@ public class LevelManager : MonoBehaviour
         proceedToNextWave = true;
     }
 
+    private bool isCountdownPlaying = false; // Flag to track countdown sound state
     private void ShowSliders()
     {
         foreach (Transform spawnPoint in spawnPoints)
         {
             sliderController.MoveSliderTo(spawnPoint);
         }
-        StartCoroutine(PlayCountdownSound());
+
+        // Start the countdown sound only if it's not already playing
+        if (!isCountdownPlaying)
+        {
+            StartCoroutine(PlayCountdownSound());
+        }
     }
 
     private IEnumerator PlayCountdownSound()
     {
+        isCountdownPlaying = true; // Mark the countdown as active
         countdownSound.Play();
         yield return new WaitForSeconds(20);
-        countdownSound.Stop(); 
+        countdownSound.Stop();
+        isCountdownPlaying = false; // Mark the countdown as inactive
     }
 
     private IEnumerator WaitForFirstWaveStart()
