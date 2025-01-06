@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.29624602, g: 0.37907368, b: 0.510505, a: 1}
+  m_IndirectSpecularColor: {r: 0.296246, g: 0.37907362, b: 0.51050496, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12273,6 +12273,7 @@ GameObject:
   - component: {fileID: 803808383}
   - component: {fileID: 803808382}
   - component: {fileID: 803808381}
+  - component: {fileID: 803808385}
   - component: {fileID: 803808384}
   m_Layer: 5
   m_Name: SoundOn
@@ -12345,8 +12346,20 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 803808384}
-        m_TargetAssemblyTypeName: ChangeSound, Assembly-CSharp
-        m_MethodName: ButtonClicked
+        m_TargetAssemblyTypeName: MuteButton, Assembly-CSharp
+        m_MethodName: ToggleMute
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 803808385}
+        m_TargetAssemblyTypeName: ToggleSound, Assembly-CSharp
+        m_MethodName: OnToggleSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12403,12 +12416,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 803808379}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebc5f09c10dfb4ad9af2d088b3a6de09, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b335992117724af0af32186e8cb096f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundOffImage: {fileID: 21300000, guid: 00b1d9845601441b08fd37c964128e0a, type: 3}
-  button: {fileID: 803808381}
-  audioSource: {fileID: 0}
+--- !u!114 &803808385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803808379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b77c38581ee4f8b8ac78a69a04c6f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundOnIcon: {fileID: 21300000, guid: 0c16417b2c7214a3da37169db444e932, type: 3}
+  soundOffIcon: {fileID: 21300000, guid: 00b1d9845601441b08fd37c964128e0a, type: 3}
+  soundOnSize: {x: 100, y: 100}
+  soundOffSize: {x: 100, y: 100}
 --- !u!1 &806205582
 GameObject:
   m_ObjectHideFlags: 0
