@@ -15,14 +15,5 @@ public class MainMenuPlayController : MonoBehaviour
         {
             buttonClickSound.Play();
         }
-
-        // // Delay scene loading slightly to let the sound play
-        // Invoke(nameof(LoadScene), buttonClickSound.clip.length);
     }
-
-    // // Separate method for loading the scene
-    // private void LoadScene()
-    // {
-    //     SceneManager.LoadScene(sceneToLoad);
-    // }
 }
