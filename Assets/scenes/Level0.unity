@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.296246, g: 0.37907362, b: 0.51050496, a: 1}
+  m_IndirectSpecularColor: {r: 0.29624602, g: 0.37907368, b: 0.510505, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4488,6 +4488,7 @@ MonoBehaviour:
   towerPrefab: {fileID: 586293632787620002, guid: 5bbe32343b21945d4add5424138ff2f9, type: 3}
   currentTowerPrefab: {fileID: 0}
   showCost: 1
+  useUpgradeUI: 0
   buttonImage: {fileID: 846512193}
   swordImage: {fileID: 214381369}
   timerImage: {fileID: 1970660913}
@@ -6839,6 +6840,7 @@ MonoBehaviour:
   towerPrefab: {fileID: 0}
   currentTowerPrefab: {fileID: 0}
   showCost: 1
+  useUpgradeUI: 0
   buttonImage: {fileID: 789422271}
   swordImage: {fileID: 1948434685}
   timerImage: {fileID: 1060811336}
@@ -7073,9 +7075,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6.25, y: 5.9, z: 1.15}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 789422270}
-  - {fileID: 1398467502}
+  m_Children: []
   m_Father: {fileID: 1325809617}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -7430,14 +7430,14 @@ RectTransform:
   m_GameObject: {fileID: 789422269}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.16, y: 0.16949151, z: 0.8695653}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 739315470}
+  m_Father: {fileID: 1325809617}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.9999841, y: -2.5423727}
+  m_AnchoredPosition: {x: -12.499996, y: -7.4999533}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &789422271
@@ -9617,6 +9617,7 @@ MonoBehaviour:
   towerPrefab: {fileID: 5891066069922524749, guid: 27b38202aeb974213936abbdae123c9a, type: 3}
   currentTowerPrefab: {fileID: 0}
   showCost: 1
+  useUpgradeUI: 0
   buttonImage: {fileID: 846512193}
   swordImage: {fileID: 214381369}
   timerImage: {fileID: 1970660913}
@@ -10152,6 +10153,7 @@ MonoBehaviour:
   towerPrefab: {fileID: 5535553218914235519, guid: 2c44a3d0da0e64db5bc84347da43cb67, type: 3}
   currentTowerPrefab: {fileID: 0}
   showCost: 1
+  useUpgradeUI: 0
   buttonImage: {fileID: 846512193}
   swordImage: {fileID: 214381369}
   timerImage: {fileID: 1970660913}
@@ -11382,6 +11384,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1398467502}
+  - {fileID: 789422270}
   - {fileID: 739315470}
   - {fileID: 1639449543}
   - {fileID: 735098898}
@@ -11876,14 +11880,14 @@ RectTransform:
   m_GameObject: {fileID: 1398467501}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.16, y: 0.16949151, z: 0.8695653}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 739315470}
+  m_Father: {fileID: 1325809617}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000009765625, y: -2.5423727}
+  m_AnchoredPosition: {x: -0.000028381352, y: -7.4999533}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1398467503
@@ -13280,7 +13284,8 @@ MonoBehaviour:
   sellPriceText: {fileID: 0}
   towerPrefab: {fileID: 0}
   currentTowerPrefab: {fileID: 0}
-  showCost: 1
+  showCost: 0
+  useUpgradeUI: 1
   buttonImage: {fileID: 789422271}
   swordImage: {fileID: 1948434685}
   timerImage: {fileID: 1060811336}

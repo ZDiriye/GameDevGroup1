@@ -12,6 +12,7 @@ public class TowerWheelButtonController : MonoBehaviour
     private CursorManager cursorManager;
     public GameObject towerPrefab, currentTowerPrefab;
     public bool showCost; 
+    public bool useUpgradeUI; 
     public Image buttonImage,swordImage, timerImage, panel;
 
     private void OnMouseEnter()
@@ -57,70 +58,68 @@ public class TowerWheelButtonController : MonoBehaviour
         }
     }
 
-
     private void UpdateUI()
     {
-        if (towerPrefab != null)
+        if (towerPrefab == null)
         {
-            var towerData = towerPrefab.GetComponent<BaseTowerController>();
-            if (towerData != null)
-            {
-                itemText.text = itemName;
-                costText.text = towerData.placementCost.ToString();
-                descriptionText.text = towerData.description;
-                damageText.text = towerData.damage.ToString();
-                cooldownText.text = towerData.shootingCoolDown.ToString();
-                if (currentTowerPrefab != null)
-                {
-                    var currentTowerData = currentTowerPrefab.GetComponent<BaseTowerController>();
-                    if (upgradeCostText != null && currentTowerData != null && currentTowerData.nextTowerPrefab != null)
-                    {
-                        upgradeCostText.text = currentTowerData.nextTowerPrefab.upgradeCost.ToString();
-                    }
+            ClearUI();
+            return;
+        }
 
-                    sellPriceText.text = currentTowerData.sellPrice.ToString();
-                    Debug.Log(currentTowerData.sellPrice.ToString());
-                }
-                buttonImage.enabled = true;
-                swordImage.enabled = true;
-                timerImage.enabled = true;
-                panel.enabled = true;
-            }
+        var towerData = towerPrefab.GetComponent<BaseTowerController>();
+        if (towerData == null)
+        {
+            ClearUI();
+            return;
+        }
+
+        itemText.text = itemName;
+        if (useUpgradeUI)
+        {
+            if (costText != null) costText.text = towerData.placementCost.ToString();
+            if (sellPriceText != null) sellPriceText.text = "";
+        }
+        else if (showCost)
+        {
+            if (costText != null) costText.text = towerData.placementCost.ToString();
         }
         else
         {
-            ClearUI();
+            if (costText != null) costText.text = "";
+            if (sellPriceText != null) sellPriceText.text = towerData.sellPrice.ToString();
         }
+
+        descriptionText.text = towerData.description;
+        damageText.text = towerData.damage.ToString();
+        cooldownText.text = towerData.shootingCoolDown.ToString();
+
+        if (currentTowerPrefab != null)
+        {
+            var currentTowerData = currentTowerPrefab.GetComponent<BaseTowerController>();
+            if (currentTowerData != null && currentTowerData.nextTowerPrefab != null && upgradeCostText != null)
+            {
+                upgradeCostText.text = currentTowerData.nextTowerPrefab.upgradeCost.ToString();
+            }
+        }
+
+        buttonImage.enabled = true;
+        swordImage.enabled = true;
+        timerImage.enabled = true;
+        panel.enabled = true;
     }
 
     private void ClearUI()
     {
         itemText.text = "";
-        if (costText != null)
-        {
-            costText.text = "";
-        }
-        descriptionText.text = "";
-        if (damageText !=null)
-        {
-            damageText.text = "";
-        }
-        if (cooldownText != null)
-        {
-            cooldownText.text = "";
-        }
-        if (upgradeCostText != null)
-        {
-            upgradeCostText.text = ""; // Only clear this if it's not null
-        }
-        if (sellPriceText != null)
-        {
-            sellPriceText.text = ""; // Only clear this if it's not null
-        }
+        if (costText != null) costText.text = "";
+        if (descriptionText != null) descriptionText.text = "";
+        if (damageText != null) damageText.text = "";
+        if (cooldownText != null) cooldownText.text = "";
+        if (upgradeCostText != null) upgradeCostText.text = "";
+        if (sellPriceText != null) sellPriceText.text = "";
         buttonImage.enabled = false;
         swordImage.enabled = false;
         timerImage.enabled = false;
         panel.enabled = false;
     }
-
 }
