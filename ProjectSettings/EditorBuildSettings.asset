@@ -6,28 +6,28 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/scenes/LevelMenu.unity
+    path: Assets/Scenes/LevelMenu.unity
     guid: faa95712e5e8c4fdd859fffe7a698f9e
   - enabled: 1
-    path: Assets/scenes/Level1.unity
+    path: Assets/Scenes/Level1.unity
     guid: 008fadac2ae2444a8b60f5e308b7f020
   - enabled: 1
-    path: Assets/scenes/Level1.unity
+    path: Assets/Scenes/Level1.unity
     guid: 008fadac2ae2444a8b60f5e308b7f020
   - enabled: 1
-    path: Assets/scenes/Main Menu.unity
+    path: Assets/Scenes/Main Menu.unity
     guid: 076c9b59d49974223a4413804fe42523
   - enabled: 1
-    path: Assets/scenes/GameOver.unity
+    path: Assets/Scenes/GameOver.unity
     guid: 986190b48f286486785dcbfc9c2f707f
   - enabled: 1
-    path: Assets/scenes/Level2.unity
+    path: Assets/Scenes/Level2.unity
     guid: 8d326e596c85d48749ab58711074c7d6
   - enabled: 1
-    path: Assets/scenes/Level0.unity
+    path: Assets/Scenes/Level0.unity
     guid: 5ccf312b936644d99aaa3712ca9c9cc8
   - enabled: 1
-    path: Assets/scenes/LevelComplete.unity
+    path: Assets/Scenes/LevelComplete.unity
     guid: 9d987af69787a416a9586e711a2cd5d3
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
